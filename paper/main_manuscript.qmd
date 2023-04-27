@@ -1,5 +1,5 @@
 ---
-title: "Paper Manuscript"
+title: "Religiosity by Education"
 shorttitle: "Paper"
 abstract: An Abstract
 keywords: [keyword1, keyword2]
