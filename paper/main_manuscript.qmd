@@ -8,7 +8,7 @@ reference-section-title: References
 bibliography: ../bibliography/project.bib
 csl: ../bibliography/chicago-parenthetical.csl
 format:
-  aog-article-pdf:
+  pdf:
     keep-tex: false
     include-in-header: 
       text: |
@@ -32,7 +32,7 @@ source(here("utils","functions.R"))
 
 # Introduction
 
-Religious importance for some individuals in the United States has changed over the last century. The U.S. census reports an increasing population of those who religion is not a central feature of their lives. This increasing population of non-religious individuals is occurring within a system historically rooted in religion. One of the founding principles of the United States is the right to practice any religion. Why then are more and more people opting to practice no religion in the end of the 20th and beginning of the 21st century? One factor associated with the decline of personal religious importance is education leading to, on average, a result showing as education increases, religious importance decreases. This research paper will examine the association between level of education and religious importance from 1970 through 2020 to see how this association varies with time and across gender. 
+Religious importance for some individuals in the United States has changed over the last century. The U.S. census reports an increasing population of those who religion is not a central feature of their lives. This increasing population of non-religious individuals is occurring within a system historically rooted in religion. One of the founding principles of the United States is the right to practice any religion. Why then are more and more people opting to practice no religion in the end of the 20th and beginning of the 21st century? One factor associated with the decline of personal religious importance may be education leading to, on average, a result showing as education increases, religious importance decreases. This research paper will examine the association between level of education and religious importance from 1970 through 2020 to see how this association varies with time and across gender. 
 
 In order to examine the association between the levels of education and importance of religion it is important to first consider a few variables. First, in order to measure how important religion is to a person, a term must be identified. This term is religiosity. It describes how important religion is to an individual. It is usually a compost measure of religious service attendance, prayer frequency, and intensity of belief in the afterlife. The specific criteria is detailed in the methods section. Identifying religiosity gives the ability to examine the relation between levels of education and religious importance. But, why include the time range of 1970-2020? Furthermore, why consider gender?
 
