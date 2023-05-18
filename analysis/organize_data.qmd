@@ -1,5 +1,5 @@
 ---
-title: "Organize Data Notebook"
+title: "Religiosity by Education"
 ---
 
 ```{r}
@@ -10,4 +10,12 @@ source(here("utils","check_packages.R"))
 source(here("utils","functions.R"))
 ```
 
-This quarto doc is used to organize the data.
+Reading in Raw Data
+
+```{r}
+
+
+
+```
+
+
