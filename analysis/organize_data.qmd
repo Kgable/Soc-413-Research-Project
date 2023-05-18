@@ -10,12 +10,40 @@ source(here("utils","check_packages.R"))
 source(here("utils","functions.R"))
 ```
 
-Reading in Raw Data
+## Reading in Raw Data
 
 ```{r}
-
+#| label: read-data
+gss <- read_fwf(here("data","data_raw","GSS.dat"), 
+                col_positions = 
+                  fwf_positions(start=c(6, 64, 29),
+                                end  =c(9, 68, 33),
+                                col_names=c("EDUC", "YEAR", "ATTEND")))
 
 
 ```
 
+## Code variables
 
+```{r}
+#| label: code-vars
+gss <- gss |>
+  mutate(year=YEAR,
+         educ=ifelse(EDUC<0, NA, EDUC))
+
+```
+
+```{r}
+#| label: check-ed
+table(gss$EDUC, gss$educ, exclude=NULL)
+```
+
+## Save it all
+
+```{r}
+#| label: save-analytical-data
+gss <- gss |>
+  select(year, educ)
+
+save(gss, file=here("data","data_constructed","analytical_data.RData"))
+```
