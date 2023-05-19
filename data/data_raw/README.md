@@ -1,1 +1,3 @@
-This directory contains all raw data that is external to the project. This README should be updated to describe data sources.
+This directory contains all raw data that is external to the project. 
+The data set contained in the raw data folder is data collected from the General Social Survey (GSS), a project of the NORC at the University of Chicago, and is funded by the National Science Foundation.  The GSS is a publicly available national resource which began collecting data on societal changes since 1972. 
+https://gssdataexplorer.norc.org/home 

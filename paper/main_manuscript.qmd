@@ -41,6 +41,9 @@ The United States experienced a large increase in education after 1950. With soc
 # Background
 
 # Data and Methods
+The raw data set contains variables intended to measure educational trends, variables intended to construct the variable religiosity, and additional variables considering gender, race, and potential financial measures. The data set was collected from the GSS website on 11 May 2023, and the file size is 4.8 Mb. The survey is a national survey and therefore is generalizable to the U.S. population. The education variable measures trends in educational achievement by recording an individual's highest degree earned. Religiosity is often used to measure the quality of an individual's religious beliefs, experiences, and social significance. The five most commonly used variables used to measure religiosity are present here; religious importance, prayer frequency, religious attendance, belief in god, and belief in an afterlife. The additional variable of religious preference tracks a respondent's declared religious affiliation. The sex variable tracks a respondent's declared gender. 
+The additional variables of race, income, wealth, and childhood religious affiliation are collected for potential consideration. Race records the respondent's declared race. Income and wealth measures a family's yearly income and collective wealth respectively, as declared by the respondent. The childhood religious affiliation tracks a respondent's declared childhood religious affiliation. 
+Data was available for education, sex, race, religious preference, and religious attendance for all years from 1972 through 2022. Other variables were not available for each year and therefore will be addressed in building the analytic data set. 
 
 # Results
 
