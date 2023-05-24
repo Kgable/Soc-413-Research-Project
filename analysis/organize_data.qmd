@@ -17,13 +17,13 @@ source(here("utils","functions.R"))
 gss <- read_fwf(here("data","data_raw","GSS.dat"), 
                 col_positions = 
                   fwf_positions(start=c(6, 64, 29, 10, 25, 34, 39,
-                                        49, 59),
+                                        49),
                                 end  =c(9, 68, 33, 14, 28, 38, 43,
-                                        53, 64),
+                                        53),
                                 col_names=c("EDUC", "YEAR",
                                             "ATTEND", "SEX", "RELIG",
                                             "PRAY", "GOD",
-                                            "AFTERLIF", "RELIGIMP")))
+                                            "AFTERLIF")))
 
 
 ```
@@ -40,13 +40,12 @@ gss <- gss |>
          relig=ifelse(RELIG<0, NA, RELIG),
          pray=ifelse(PRAY<0, NA, PRAY),
          god=ifelse(GOD<0, NA, GOD),
-         afterlif=ifelse(AFTERLIF<0, NA, AFTERLIF),
-         religimp=ifelse(RELIGIMP<0, NA, RELIGIMP))
+         afterlif=ifelse(AFTERLIF<0, NA, AFTERLIF))
 
 ```
 
 ```{r}
-#| label: check-ed
+#| label: check-ed missing values
 #table(gss$EDUC, gss$educ, exclude=NULL)
 #table(gss$SEX, gss$sex, exclude=NULL)
 #table(gss$ATTEND, gss$attend, exclude=NULL)
@@ -54,12 +53,90 @@ gss <- gss |>
 #table(gss$PRAY, gss$pray, exclude=NULL)
 #table(gss$GOD, gss$god, exclude=NULL)
 #table(gss$AFTERLIF, gss$afterlif, exclude=NULL)
-table(gss$RELIGIMP, gss$religimp, exclude=NULL)
 ```
 
 ```{r}
-#| label: creating religiosity variable
+#| label: collapsing highest educational attainment.
+gss$edattain <- factor(ifelse(gss$educ<=11, "less than high school",
+                              ifelse(gss$educ==12, "high school",
+                                     ifelse(gss$educ>=13 & 
+                                              gss$educ<=15,
+                                            "some college",
+                                            ifelse(gss$educ==16,
+                                                   "bachelors",
+                                                   ifelse(gss$educ>=17 & 
+                                                            gss$educ<=20,
+                                                          "graduate", NA))))),
+                       levels=c("less than high school","high school",
+                                "some college","bachelors", "graduate"))
+```
 
+```{r}
+#| label: collapsing religious attendance
+gss$religattend <- factor(ifelse(gss$attend == 0, "never",
+                                 ifelse(gss$attend>=1 & gss$attend<=2,
+                                        "yearly",
+                                        ifelse(gss$attend>=3 & gss$attend<=4,
+                                               "monthly",
+                                               ifelse(gss$attend>=5 &
+                                                        gss$attend<=7,
+                                                      "weekly",
+                                                      ifelse(gss$attend==8,
+                                                              "more than weeky", NA))))),
+                          levels=c("never","yearly","monthly","weekly",
+                                   "more than weeky"))
+```
+
+```{r}
+#| label: Collapsing Prayer Frequency
+gss$prayfreq <- factor(ifelse(gss$pray == 6, "never",
+                                 ifelse(gss$pray>=4 & gss$pray<=5,
+                                        "weekly",
+                                        ifelse(gss$pray>=2 & gss$pray<=3,
+                                               "daily",
+                                               ifelse(gss$pray==1,
+                                                      "more than daily", NA)))),
+                          levels=c("never","weekly","daily",
+                                   "more than daily"))
+```
+
+```{r}
+#| label: collapsing belief in god
+gss$bgod <- factor(ifelse(gss$god >=1 & gss$god<=2, "no belief",
+                                 ifelse(gss$god==3, "higher power",
+                                        ifelse(gss$god>=4 & gss$god<=5,
+                                               "belief/doubt",
+                                               ifelse(gss$god==6,
+                                                      "no doubt", NA)))),
+                          levels=c("no belief","higher power","belief/doubt",
+                                   "no doubt"))
+```
+
+```{r}
+#| label: renaming sex variable
+gss$ssex <- factor(ifelse(gss$sex==1, "male",
+                         ifelse(gss$sex==2, "female", NA)),
+                  levels=c("male","female")) 
+```
+
+```{r}
+#| label: renaming belife in afterlife variable
+gss$balife <- factor(ifelse(gss$afterlif==1, "yesdef",
+                         ifelse(gss$afterlif==2, "yesprob",
+                                ifelse(gss$afterlif==3, "noprob", 
+                                       ifelse(gss$afterlif==4,
+                                              "nodef", NA)))),
+                  levels=c("yesdef","yesprob", "noprob", "nodef")) 
+```
+
+```{r}
+#| label: final variables check-ed
+#table(gss$educ, gss$edattain, exclude=NULL)
+#table(gss$attend, gss$religattend, exclude=NULL)
+#table(gss$pray, gss$prayfreq, exclude=NULL)
+#table(gss$god, gss$bgod, exclude=NULL)
+#table(gss$sex, gss$ssex, exclude=NULL)
+#table(gss$afterlif, gss$balife, exclude=NULL)
 ```
 
 ## Save it all
@@ -67,7 +144,7 @@ table(gss$RELIGIMP, gss$religimp, exclude=NULL)
 ```{r}
 #| label: save-analytical-data
 gss <- gss |>
-  select(year, educ, sex, relig,)
+  select(year, edattain, ssex, religattend, prayfreq, bgod, balife)
 
 save(gss, file=here("data","data_constructed","analytical_data.RData"))
 ```
