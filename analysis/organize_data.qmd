@@ -72,6 +72,15 @@ gss$edattain <- factor(ifelse(gss$educ<=11, "less than high school",
 ```
 
 ```{r}
+#| label: Standardizing belief in relgiosity variables.
+scale(gss$afterlif)
+#scale(gss$attend, center = TRUE, scale = TRUE)
+#scale(gss$pray, center = TRUE, scale = TRUE)
+#scale(gss$god, center = TRUE, scale = TRUE)
+```
+
+
+```{r}
 #| label: collapsing religious attendance
 gss$religattend <- factor(ifelse(gss$attend == 0, "never",
                                  ifelse(gss$attend>=1 & gss$attend<=2,
