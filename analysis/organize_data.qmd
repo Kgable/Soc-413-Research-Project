@@ -118,9 +118,9 @@ gss$ssex <- factor(ifelse(gss$sex==1, "male",
 standardize <- function(x) {
   (x-mean(x, na.rm=TRUE))/sd(x, na.rm=TRUE)
 }
-standardize(gss$attend)
-standardize(gss$pray)
-standardize(gss$god)
+#gss$temp <- standardize(gss$attend)
+#gss$temp2 <- standardize(gss$pray)
+gss$temp3 <- standardize(gss$god)
 ```
 
 ```{r}
