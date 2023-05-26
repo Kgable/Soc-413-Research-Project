@@ -72,15 +72,6 @@ gss$edattain <- factor(ifelse(gss$educ<=11, "less than high school",
 ```
 
 ```{r}
-#| label: Standardizing belief in relgiosity variables.
-scale(gss$afterlif)
-#scale(gss$attend, center = TRUE, scale = TRUE)
-#scale(gss$pray, center = TRUE, scale = TRUE)
-#scale(gss$god, center = TRUE, scale = TRUE)
-```
-
-
-```{r}
 #| label: collapsing religious attendance
 gss$religattend <- factor(ifelse(gss$attend == 0, "never",
                                  ifelse(gss$attend>=1 & gss$attend<=2,
@@ -123,7 +114,7 @@ gss$bgod <- factor(ifelse(gss$god >=1 & gss$god<=2, "no belief",
 
 ```{r}
 #| label: renaming sex variable
-gss$ssex <- factor(ifelse(gss$sex==1, "male",
+gss$sex <- factor(ifelse(gss$sex==1, "male",
                          ifelse(gss$sex==2, "female", NA)),
                   levels=c("male","female")) 
 ```
@@ -139,12 +130,20 @@ gss$balife <- factor(ifelse(gss$afterlif==1, "yesdef",
 ```
 
 ```{r}
+#| label: Standardizing belief in relgiosity variables.
+standardize <- function(x) {
+  (x-mean(x, na.rm=TRUE))/sd(x, na.rm=TRUE)
+}
+standardize(gss$afterlif, gss$attend, gss$pray, gss$god)
+```
+
+```{r}
 #| label: final variables check-ed
 #table(gss$educ, gss$edattain, exclude=NULL)
 #table(gss$attend, gss$religattend, exclude=NULL)
 #table(gss$pray, gss$prayfreq, exclude=NULL)
 #table(gss$god, gss$bgod, exclude=NULL)
-#table(gss$sex, gss$ssex, exclude=NULL)
+#table(gss$sex)
 #table(gss$afterlif, gss$balife, exclude=NULL)
 ```
 
@@ -153,7 +152,8 @@ gss$balife <- factor(ifelse(gss$afterlif==1, "yesdef",
 ```{r}
 #| label: save-analytical-data
 gss <- gss |>
-  select(year, edattain, ssex, religattend, prayfreq, bgod, balife)
+  select(year, edattain, sex, religattend,
+         prayfreq, bgod, balife)
 
 save(gss, file=here("data","data_constructed","analytical_data.RData"))
 ```
