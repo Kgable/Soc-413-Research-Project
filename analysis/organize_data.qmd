@@ -118,6 +118,7 @@ gss$ssex <- factor(ifelse(gss$sex==1, "male",
 standardize <- function(x) {
   (x-mean(x, na.rm=TRUE))/sd(x, na.rm=TRUE)
 }
+#Each one of these trials have produced means of zero, but each sd varies greatly. some are greater than one, some are less than one. 
 #gss$temp <- standardize(gss$attend)
 #gss$temp2 <- standardize(gss$pray)
 gss$temp3 <- standardize(gss$god)
