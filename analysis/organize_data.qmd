@@ -146,7 +146,6 @@ alpha(gss[, c("attend", "pray", "god")])
 #table(gss$pray, gss$prayfreq, exclude=NULL)
 #table(gss$god, gss$bgod, exclude=NULL)
 #table(gss$sex, gss$ssex, exclude=NULL)
-#loadings(religiosity)
 ```
 
 ## Save it all
