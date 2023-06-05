@@ -48,7 +48,7 @@ gss <- gss |>
 #table(gss$RELIG, gss$relig, exclude=NULL)
 #table(gss$PRAY, gss$pray, exclude=NULL)
 #table(gss$GOD, gss$god, exclude=NULL)
-table(gss$AGE, gss$age, exclude=NULL)
+#table(gss$AGE, gss$age, exclude=NULL)
 ```
 
 ```{r}
@@ -138,7 +138,7 @@ alpha(gss[, c("attend", "pray", "god")])
 ```{r}
 #| label: coding age as cohorts
 gss$bcohort <- gss$year-gss$age
-gss$bcohort10 <- cut(gss$bcohort, seq(from=1972, to=2022, by=10), include.lowest=TRUE)
+gss$bcohort10 <- cut(gss$bcohort, c(1880, seq(from=1900, to=2010, by=10)), right=FALSE)
 ```
 
 ```{r}
@@ -162,7 +162,7 @@ gss$bcohort10 <- cut(gss$bcohort, seq(from=1972, to=2022, by=10), include.lowest
 #| label: save-analytical-data
 gss <- gss |>
   select(year, edattain, ssex, religattend,
-         prayfreq, bgod, religiosity)
+         prayfreq, bgod, religiosity, bcohort10)
 
 save(gss, file=here("data","data_constructed","analytical_data.RData"))
 ```
