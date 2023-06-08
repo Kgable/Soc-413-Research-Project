@@ -1,5 +1,5 @@
 ---
-title: "Research Analysis Notebook"
+title: "Religiosity be Education"
 ---
 
 ```{r}
@@ -11,4 +11,100 @@ source(here("utils","functions.R"))
 load(here("data","data_constructed","analytical_data.RData"))
 ```
 
-This quarto doc is used to analyze the data.
+
+
+```{r}
+#| Label: Levels of Educational Attainment
+ggplot(gss, aes(x=edattain, y=after_stat(prop), group=1))+
+  geom_bar()+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x="Education Level Attained", y=NULL, 
+       title="Distribution of Education Level")+
+  theme_bw()
+```
+
+
+
+```{r}
+#| label: Education Level by Sex
+ggplot(gss, aes(x=edattain, y=after_stat(prop), group=1))+
+  geom_bar()+
+  facet_wrap(~ssex)+
+  scale_y_continuous(labels = scales::percent)+
+  labs(x=NULL, y=NULL, 
+       title="Educational Attainment by Sex")+
+  coord_flip()+
+  theme_bw()
+```
+
+
+
+```{r}
+#| label: Religious Attendence 
+ggplot(gss, aes(x=religattend, y=after_stat(prop), group=1))+
+  geom_bar()+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x="Religious Attendence", y=NULL, 
+       title="Distribution of Religious Attendence")+
+  theme_bw()
+```
+
+```{r}
+#| label: Religious Attendence by Sex
+ggplot(gss, aes(x=religattend, y=after_stat(prop), group=1))+
+  geom_bar()+
+  facet_wrap(~ssex)+
+  scale_y_continuous(labels = scales::percent)+
+  labs(x=NULL, y=NULL, 
+       title="Religious Attendence by Sex")+
+  coord_flip()+
+  theme_bw()
+```
+
+
+
+```{r}
+#| Label: 
+ggplot(gss, aes(x=bcohort10, y=religattend))+
+  geom_point()+
+  #coord_flip()+
+  theme_bw()+
+  labs(x=NULL,
+       y="Religious Attendence",
+       title="Religious Attendence by Birth Cohort",
+       caption="GSS data")
+```
+
+
+
+
+```{r}
+#| Label: 
+ggplot(gss, aes(x=bcohort10, y=prayfreq))+
+  geom_point()+
+  #coord_flip()+
+  theme_bw()+
+  labs(x=NULL,
+       y="Prayer Frequency",
+       title="Prayer Frequency by Birth Cohort",
+       caption="GSS data")
+```
+
+```{r}
+#| Label: 
+ggplot(gss, aes(x=bcohort10, y=bgod))+
+  geom_point()+
+  #coord_flip()+
+  theme_bw()+
+  labs(x=NULL,
+       y="Belief in God",
+       title="Belief in God by Birth Cohort",
+       caption="GSS data")
+```
+
+
+
+```{r}
+#| Label: 
+
+```

@@ -132,7 +132,7 @@ gss <- gss |>
 
 ```{r}
 #| label: verifying alpha
-alpha(gss[, c("attend", "pray", "god")])
+#alpha(gss[, c("attend", "pray", "god")])
 ```
 
 ```{r}
@@ -143,7 +143,7 @@ gss$bcohort10 <- cut(gss$bcohort, c(1880, seq(from=1900, to=2010, by=10)), right
 
 ```{r}
 #| label: creating religiosity through fa.
-#relfact <- fa(gss[, c("attend", "pray", "god")],
+#gss$relfact <- fa(gss[, c("attend", "pray", "god")],
               #nfactors=1, rotate="oblimin")
 ```
 
