@@ -105,6 +105,8 @@ ggplot(gss, aes(x=bcohort10, y=bgod))+
 
 
 ```{r}
-#| Label: 
-
+#| Label: Modeling Religiosity by Cohort
+model1<-glm(religiosity~bcohort10, data=gss)
+model2<-glm(religiosity~bcohort10+edattain, data=gss)
+model3<-glm(religiosity~bcohort10+edattain+ssex, data=gss)
 ```
