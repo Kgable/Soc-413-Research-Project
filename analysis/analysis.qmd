@@ -116,6 +116,17 @@ ggplot(gss, aes(x=year, y=religiosity))
 model1<-glm(religiosity~bcohort10, data=gss)
 model2<-glm(religiosity~bcohort10+edattain, data=gss)
 model3<-glm(religiosity~bcohort10+edattain+ssex, data=gss)
+
+#to print to screen replace texreg with screenreg
+screenreg(list(model1, model2, model3),
+       #uncomment next line to add nice labels to independent variables
+       #custom.coef.names = c("Covariate labels here"),
+       digits = 3,
+       caption.above=TRUE, 
+       include.rsquared=TRUE,
+       include.adjrs=FALSE,
+       include.nobs=TRUE,
+       include.rmse=FALSE)
 ```
 
 
