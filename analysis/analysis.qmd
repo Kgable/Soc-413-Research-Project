@@ -102,6 +102,13 @@ ggplot(gss, aes(x=bcohort10, y=bgod))+
        caption="GSS data")
 ```
 
+```{r}
+temp <- gss |>
+  group_by(year, bcohort10) |>
+  summarize(m_religiosity=mean(religiosity, na.rm=TRUE))
+
+ggplot(gss, aes(x=year, y=religiosity))
+```
 
 
 ```{r}
