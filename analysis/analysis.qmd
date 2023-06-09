@@ -107,7 +107,10 @@ temp <- gss |>
   group_by(year, bcohort10) |>
   summarize(m_religiosity=mean(religiosity, na.rm=TRUE))
 
-ggplot(gss, aes(x=year, y=religiosity))
+ggplot(gss, aes(x=year, y=religiosity))+
+  labs(x="year", y=NULL, 
+       title="Religiosity by Birth Cohort",
+       caption="GSS Data")
 ```
 
 
@@ -117,3 +120,23 @@ model1<-glm(religiosity~bcohort10, data=gss)
 model2<-glm(religiosity~bcohort10+edattain, data=gss)
 model3<-glm(religiosity~bcohort10+edattain+ssex, data=gss)
 ```
+
+```{r}
+#| Label: Rendering Models
+#to print to screen replace texreg with screenreg
+screenreg(list(model1, model2, model3),
+       custom.coef.names = c("intercept", "1900-1910", "1911-1920", "1921-1930",
+                             "1931-1940", "1941-1950", "1951-1960",
+                             "1961-1970", "1971-1980", "1981-1990",
+                             "1991-2000", "2001-2010", "high school",
+                             "some college", "bachelors", "graduate",
+                             "female"),
+       digits = 3,
+       caption.above=TRUE, 
+       include.rsquared=TRUE,
+       include.adjrs=FALSE,
+       include.nobs=TRUE,
+       include.rmse=FALSE)
+```
+
+
