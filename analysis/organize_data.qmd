@@ -138,7 +138,11 @@ gss <- gss |>
 ```{r}
 #| label: coding age as cohorts
 gss$bcohort <- gss$year-gss$age
-gss$bcohort10 <- cut(gss$bcohort, c(1880, seq(from=1900, to=2010, by=10)), right=FALSE)
+cohort_breaks <- c(1880, seq(from=1900, to=2010, by=10))
+cohort_names <- paste(cohort_breaks[1:length(cohort_breaks)-1],
+                      cohort_breaks[2:length(cohort_breaks)]-1, sep="-")
+gss$bcohort10 <- cut(gss$bcohort, breaks=cohort_breaks, labels=cohort_names, 
+                     right=FALSE)
 ```
 
 ```{r}
