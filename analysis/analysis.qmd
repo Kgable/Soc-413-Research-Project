@@ -107,7 +107,10 @@ temp <- gss |>
   group_by(year, bcohort10) |>
   summarize(m_religiosity=mean(religiosity, na.rm=TRUE))
 
-ggplot(gss, aes(x=year, y=religiosity))
+ggplot(gss, aes(x=year, y=religiosity))+
+  labs(x="year", y=NULL, 
+       title="Religiosity by Birth Cohort",
+       caption="GSS Data")
 ```
 
 
