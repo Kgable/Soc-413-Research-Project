@@ -64,44 +64,8 @@ gss |> filter(!is.na(religattend)) |>
 
 
 
-```{r}
-#| Label: 
-ggplot(gss, aes(x=bcohort10, y=religattend))+
-  geom_point()+
-  #coord_flip()+
-  theme_bw()+
-  labs(x=NULL,
-       y="Religious Attendence",
-       title="Religious Attendence by Birth Cohort",
-       caption="GSS data")
-```
 
 
-
-
-```{r}
-#| Label: 
-ggplot(gss, aes(x=bcohort10, y=prayfreq))+
-  geom_point()+
-  #coord_flip()+
-  theme_bw()+
-  labs(x=NULL,
-       y="Prayer Frequency",
-       title="Prayer Frequency by Birth Cohort",
-       caption="GSS data")
-```
-
-```{r}
-#| Label: 
-ggplot(gss, aes(x=bcohort10, y=bgod))+
-  geom_point()+
-  #coord_flip()+
-  theme_bw()+
-  labs(x=NULL,
-       y="Belief in God",
-       title="Belief in God by Birth Cohort",
-       caption="GSS data")
-```
 
 ```{r}
 gss |>
