@@ -15,7 +15,7 @@ load(here("data","data_constructed","analytical_data.RData"))
 
 ```{r}
 #| Label: Levels of Educational Attainment
-ggplot(gss, aes(x=edattain, y=after_stat(prop), group=1))+
+ggplot(data=subset(gss, !is.na(edattain)), aes(x=edattain, y=after_stat(prop), group=1))+
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
   labs(x="Education Level Attained", y=NULL, 
@@ -27,8 +27,8 @@ ggplot(gss, aes(x=edattain, y=after_stat(prop), group=1))+
 
 ```{r}
 #| label: Education Level by Sex
-ggplot(gss, aes(x=edattain, y=after_stat(prop), group=1))+
-  geom_bar()+
+ggplot(data=subset(gss, !is.na(edattain)), aes(x=edattain, y=after_stat(prop), group=1))+
+  geom_bar(na.rm = TRUE)+
   facet_wrap(~ssex)+
   scale_y_continuous(labels = scales::percent)+
   labs(x=NULL, y=NULL, 
@@ -41,7 +41,7 @@ ggplot(gss, aes(x=edattain, y=after_stat(prop), group=1))+
 
 ```{r}
 #| label: Religious Attendence 
-ggplot(gss, aes(x=religattend, y=after_stat(prop), group=1))+
+ggplot(data=subset(gss, !is.na(religattend)), aes(x=religattend, y=after_stat(prop), group=1))+
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
   labs(x="Religious Attendence", y=NULL, 
