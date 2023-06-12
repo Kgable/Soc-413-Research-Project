@@ -166,7 +166,7 @@ gss$bcohort10 <- cut(gss$bcohort, breaks=cohort_breaks, labels=cohort_names,
 #| label: save-analytical-data
 gss <- gss |>
   select(year, edattain, ssex, religattend,
-         prayfreq, bgod, religiosity, bcohort10)
+         prayfreq, bgod, religiosity, bcohort10, age)
 
 save(gss, file=here("data","data_constructed","analytical_data.RData"))
 ```
