@@ -14,7 +14,8 @@ load(here("data","data_constructed","analytical_data.RData"))
 
 
 ```{r}
-#| Label: Levels of Educational Attainment
+#| Label: fig-Educational Attainment
+#| fig-cap: Level of educational attainment among respondents. 
 ggplot(data=subset(gss, !is.na(edattain)), aes(x=edattain, y=after_stat(prop), group=1))+
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
@@ -26,7 +27,8 @@ ggplot(data=subset(gss, !is.na(edattain)), aes(x=edattain, y=after_stat(prop), g
 
 
 ```{r}
-#| label: Education Level by Sex
+#| label: fig-Educational Attainment by Sex
+#| fig-cap: Level of educational attainment  of respondents by sex.
 gss |> filter(!is.na(edattain), !is.na(ssex)) |>
   ggplot(aes(x=edattain, y=after_stat(prop), group=1))+
   geom_bar()+
@@ -41,24 +43,26 @@ gss |> filter(!is.na(edattain), !is.na(ssex)) |>
 
 
 ```{r}
-#| label: Religious Attendence 
+#| label: fig-Religious Attendance
+#| fig-cap: Religious attendance of respondents. 
 ggplot(data=subset(gss, !is.na(religattend)), aes(x=religattend, y=after_stat(prop), group=1))+
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
-  labs(x="Religious Attendence", y=NULL, 
-       title="Distribution of Religious Attendence")+
+  labs(x="Religious Attendance", y=NULL, 
+       title="Distribution of Religious Attendance")+
   theme_bw()
 ```
 
 ```{r}
-#| label: Religious Attendence by Sex
+#| label: fig-Religious Attendance by Sex
+#| fig-cap: Religious attendance of respondents by sex.
 gss |> filter(!is.na(religattend)) |>
   ggplot(aes(x=religattend, y=after_stat(prop), group=1))+
   geom_bar()+
   facet_wrap(~ssex)+
   scale_y_continuous(labels = scales::percent)+
   labs(x=NULL, y=NULL, 
-       title="Religious Attendence by Sex")+
+       title="Religious Attendance by Sex")+
   coord_flip()+
   theme_bw()
 ```
@@ -69,6 +73,8 @@ gss |> filter(!is.na(religattend)) |>
 
 
 ```{r}
+#| Label: fig-Religiosity by Birth Corhort
+#| fig-cap: Religisosity of respondents by birth cohort.
 gss |>
   group_by(year, bcohort10) |>
   summarize(m_religiosity=mean(religiosity, na.rm=TRUE)) |>
@@ -88,7 +94,8 @@ model4<-update(model3,.~.+bcohort10*ssex)
 ```
 
 ```{r}
-#| Label: Rendering Models
+#| Label: fig-Rendering Models
+#| fig-cap: Models of religiosity by birth cohort with interaction terms.
 #to print to screen replace texreg with screenreg
 screenreg(list(model1, model2, model3, model4),
         custom.coef.names = c("Intercept", "1880-1899", "1900-1909",
