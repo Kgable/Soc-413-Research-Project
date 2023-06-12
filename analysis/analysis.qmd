@@ -27,12 +27,13 @@ ggplot(data=subset(gss, !is.na(edattain)), aes(x=edattain, y=after_stat(prop), g
 
 ```{r}
 #| label: Education Level by Sex
-ggplot(data=subset(gss, !is.na(edattain)), aes(x=edattain, y=after_stat(prop), group=1))+
-  geom_bar(na.rm = TRUE)+
+gss |> filter(!is.na(edattain)) |>
+  ggplot(aes(x=edattain, y=after_stat(prop), group=1))+
+  geom_bar()+
   facet_wrap(~ssex)+
   scale_y_continuous(labels = scales::percent)+
   labs(x=NULL, y=NULL, 
-       title="Educational Attainment by Sex")+
+       title="Education Level by Sex")+
   coord_flip()+
   theme_bw()
 ```
