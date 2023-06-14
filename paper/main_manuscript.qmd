@@ -28,6 +28,7 @@ format:
 library(here)
 source(here("utils","check_packages.R"))
 source(here("utils","functions.R"))
+load(here("data","data_constructed","analytical_data.RData"))
 ```
 
 # Introduction
