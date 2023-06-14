@@ -182,8 +182,3 @@ This analysis has shown a negative association between education and religiosity
 
 What other societal factors influence a person's religiosity score? How does family structure (the religious devotion and practice of parents), socioeconomic status, religious affiliation (does religiosity and education differ across religious institutions?), and race influence religiosity? This analysis looked at the associations of religiosity and education and sex. Negative associations were found between religiosity and educational attainment and this finding differs across sex. Additional research should look at these additional societal factors to see how much impact they may have on the association between religiosity and education.  
 
-
-
-
-
-
