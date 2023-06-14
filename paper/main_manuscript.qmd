@@ -47,4 +47,126 @@ Data was available for education, sex, race, religious preference, and religious
 
 # Results
 
+# Levels of Educational Attainment
+
+```{r}
+#| Label: fig-Educational Attainment
+#| fig-cap: Level of educational attainment among respondents. 
+ggplot(data=subset(gss, !is.na(edattain)), aes(x=edattain, y=after_stat(prop), group=1))+
+  geom_bar()+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x="Education Level Attained", y=NULL, 
+       title="Distribution of Education Level")+
+  theme_bw()
+```
+"text"
+
+"text"
+
+```{r}
+#| label: fig-Educational Attainment by Sex
+#| fig-cap: Level of educational attainment  of respondents by sex.
+gss |> filter(!is.na(edattain), !is.na(ssex)) |>
+  ggplot(aes(x=edattain, y=after_stat(prop), group=1))+
+  geom_bar()+
+  facet_wrap(~ssex)+
+  scale_y_continuous(labels = scales::percent)+
+  labs(x=NULL, y=NULL, 
+       title="Education Level by Sex")+
+  coord_flip()+
+  theme_bw()
+```
+"text"
+
+# Religious Attendence
+
+```{r}
+#| label: fig-Religious Attendance
+#| fig-cap: Religious attendance of respondents. 
+ggplot(data=subset(gss, !is.na(religattend)), aes(x=religattend, y=after_stat(prop), group=1))+
+  geom_bar()+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x="Religious Attendance", y=NULL, 
+       title="Distribution of Religious Attendance")+
+  theme_bw()
+```
+"text"
+
+"text"
+
+```{r}
+#| label: fig-Religious Attendance by Sex
+#| fig-cap: Religious attendance of respondents by sex.
+gss |> filter(!is.na(religattend), !is.na(ssex)) |>
+  ggplot(aes(x=religattend, y=after_stat(prop), group=1))+
+  geom_bar()+
+  facet_wrap(~ssex)+
+  scale_y_continuous(labels = scales::percent)+
+  labs(x=NULL, y=NULL, 
+       title="Religious Attendance by Sex")+
+  coord_flip()+
+  theme_bw()
+```
+"text"
+
+# Religiosity by Birth Cohorts
+
+"text"
+
+```{r}
+#| Label: fig-Religiosity by Birth Corhort
+#| fig-cap: Religisosity of respondents by birth cohort.
+gss |>
+  group_by(year, bcohort10) |>
+  summarize(m_religiosity=mean(religiosity, na.rm=TRUE)) |>
+  ggplot(aes(x=year, y=m_religiosity, group=bcohort10, color=bcohort10))+
+  geom_point()+
+  geom_smooth(se=FALSE)
+```
+"text"
+
+```{r}
+#| Label: Modeling Religiosity by Cohort
+gss$bcohort10 <- relevel(gss$bcohort10, "1940-1949")
+model1<-glm(religiosity~bcohort10+age+I(age^2), data=gss)
+model2<-glm(religiosity~bcohort10+edattain+age+I(age^2), data=gss)
+model3<-glm(religiosity~bcohort10+edattain+ssex+age+I(age^2), data=gss)
+model4<-update(model3,.~.+bcohort10*ssex)
+```
+
+```{r}
+#| Label: fig-Rendering Models
+#| fig-cap: Models of religiosity by birth cohort with interaction terms.
+#to print to screen replace texreg with screenreg
+screenreg(list(model1, model2, model3, model4),
+        custom.coef.names = c("Intercept", "1880-1899", "1900-1909",
+                              "1910-1919", "1920-1929", "1930-1939",
+                              "1950-1959", "1960-1969",
+                              "1970-1979", "1980-189", "1990-1999",
+                              "2000-2009", "Age", "Age Squared",
+                              "High School", "Some College", "Bachelors",
+                              "Graduate", "Female", "Female 1880-1899",
+                              "Female 1900-1909", "Female 1910-1919",
+                              "Female 1920-1929", "Female 1930-1939",
+                              "Female 1950-1959",
+                              "Female 1960-1969", "Female 1970-1979",
+                              "Female 1980-1989", "Female 1990-1999",
+                              "Female 2000-2009"),
+       digits = 3,
+       caption.above=TRUE, 
+       include.rsquared=TRUE,
+       include.adjrs=FALSE,
+       include.nobs=TRUE,
+       include.rmse=FALSE)
+```
+"text"
+
+
 # Conclusions
+"Conclusion text"
+
+
+
+
+
+
