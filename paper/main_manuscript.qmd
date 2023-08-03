@@ -1,5 +1,5 @@
 ---
-title: "Religiosity by Education"
+title: "To Be Determined"
 shorttitle: "Paper"
 abstract: An Abstract
 keywords: [keyword1, keyword2]
