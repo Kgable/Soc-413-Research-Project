@@ -61,14 +61,16 @@ gss <- gss |>
 ```{r}
 #| label: Collapsing racial identifications.
 gss$racecat <- factor(ifelse(gss$racecen1==1, "white",
-                             ifelse(gss$racecen2==2, "black",
+                             ifelse(gss$racecen1==2, "black",
                                     ifelse(gss$hispanic>=2 &
                                              gss$hispanic<=47,
                                            "hispanic",
-                                           ))))
+                                           ifelse(gss$racecen1>=4 & gss$racecen1<=5 & gss$racecen1>=7 & gss$racecen1<=10, "asain",
+                                                  ifelse(gss$racecen1==3 & gss$racecen1>=11 & gssracecen1<=14, "indigenous/pacific islander",
+                                                         NA))))),
+                      levels=c("white", "black", "hispanic", "asian", "indigenous/pacific islander"))
 
 ```
-
 
 ```{r}
 #| label: collapsing highest educational attainment.
@@ -84,6 +86,19 @@ gss$edattain <- factor(ifelse(gss$educ<=11, "less than high school",
                                                           "graduate", NA))))),
                        levels=c("less than high school","high school",
                                 "some college","bachelors", "graduate"))
+```
+
+```{r}
+#| label: recoding religious preference variable
+gss$religpref <- factor(ifelse(gss$relig==1, "protestant",
+                               ifelse(gss$relig==2, "catholic",
+                                      ifelse(gss$relig==3, "jewish",
+                                             ifelse(gss$relig==4, "none",
+                                                    ifelse(gss$relig==5, "other", NA))))),
+                        levels=c("protestant", "catholic", "jewish", "none", "other"))
+
+
+
 ```
 
 ```{r}
@@ -149,8 +164,8 @@ gss$pray <- 7-gss$pray
 ```
 
 ```{r}
-#| label: reverse coding reliten variable
-gss$reliten
+#| label: recoding reliten variable
+
 ```
 
 ```{r}
@@ -200,7 +215,7 @@ gss <- gss |>
 #| label: save-analytical-data
 gss <- gss |>
   select(year, edattain, ssex, religattend,
-         prayfreq, bgod, religiosity, bcohort10, age)
+         prayfreq, racecat, religiosity, religpref, age)
 
 save(gss, file=here("data","data_constructed","analytical_data.RData"))
 ```
