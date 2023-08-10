@@ -60,15 +60,29 @@ gss <- gss |>
 
 ```{r}
 #| label: Collapsing racial identifications.
-gss$racecat <- factor(ifelse(gss$racecen1==1, "white",
-                             ifelse(gss$racecen1==2, "black",
-                                    ifelse(gss$hispanic>=2 &
-                                             gss$hispanic<=47,
-                                           "hispanic",
-                                           ifelse(gss$racecen1>=4 & gss$racecen1<=5 & gss$racecen1>=7 & gss$racecen1<=10, "asain",
-                                                  ifelse(gss$racecen1==3 & gss$racecen1>=11 & gssracecen1<=14, "indigenous/pacific islander",
-                                                         NA))))),
-                      levels=c("white", "black", "hispanic", "asian", "indigenous/pacific islander"))
+gss <- gss |>
+  mutate(racecat=case_when(
+    racecen2!=NA ~ multiracial,
+    racecen1==1 ~ white,
+    rececen1==2 ~ black,
+    hispanic>=2 & hispanic <= 47 ~ latinX,
+    racecen1>=4 & racecen1<=5 & racecen1>=7 & racecen1<=10, asian,
+    racecen1==3 & racecen1>=11 & racecen1<=14, indigenous/pacific_islander,
+  ))
+  
+  
+  
+  
+  
+  #factor(ifelse(gss$racecen1==1, "white",
+                             #ifelse(gss$racecen1==2, "black",
+                                    #ifelse(gss$hispanic>=2 &
+                                             #gss$hispanic<=47,
+                                           #"hispanic",
+                                           #ifelse(gss$racecen1>=4 & gss$racecen1<=5 & gss$racecen1>=7 & gss$racecen1<=10, "asain",
+                                                  #ifelse(gss$racecen1==3 & gss$racecen1>=11 & gssracecen1<=14, "indigenous/pacific islander",
+                                                         #NA))))),
+                      #levels=c("white", "black", "hispanic", "asian", "indigenous/pacific islander"))
 
 ```
 
