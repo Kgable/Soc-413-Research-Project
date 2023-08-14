@@ -132,7 +132,7 @@ gss <- gss |>
     TRUE ~ NA_character_
   ))
 
-table(gss$attend, gss$religattend, exclude+NULL)
+table(gss$attend, gss$religattend, exclude=NULL)
 ```
 
 ```{r}
@@ -185,7 +185,7 @@ gss <- gss |>
     reliten==4 ~ 1, # no religion
   ))
 
-table(gss$reliten, gss$relig_imp, exclude=NULL)
+table(gss$reliten, gss$religimp, exclude=NULL)
 
 ```
 
@@ -200,7 +200,7 @@ gss <- gss |>
     TRUE ~ NA_character_
   ))
 
-table(gss$reliten, gssreliimp, exclude=NULL)
+table(gss$reliten, gss$religimp, exclude=NULL)
 ```
 
 ```{r}
