@@ -16,10 +16,10 @@ source(here("utils","functions.R"))
 #| label: read-data
 gss <- read_fwf(here("data","data_raw","GSS.dat"), 
                 col_positions = 
-                  fwf_positions(start=c(1, 6, 11, 16, 26, 31, 35, 40, 45, 49, 54, 59, 64, 69, 74),
-                                end  =c(5, 10, 15, 20, 30, 34, 39, 44, 48, 53, 58, 63, 68, 73, 78),
+                  fwf_positions(start=c(1, 6, 11, 16, 31, 35, 40, 45, 49, 54, 59, 64, 69, 74),
+                                end  =c(5, 10, 15, 20, 34, 39, 44, 48, 53, 58, 63, 68, 73, 78),
                                 col_names=c("HISPANIC", "RACECEN1", "RACECEN2", "RACECEN3",
-                                            "AGE", "EDUC", "SEX", "RACE", "RELIG", "ATTEND",
+                                            "EDUC", "SEX", "RACE", "RELIG", "ATTEND",
                                             "RELITEN", "PRAY", "GOD", "AFTERLIF", "YEAR")))
 
 
@@ -37,7 +37,6 @@ gss <- gss |>
          relig=ifelse(RELIG<0, NA, RELIG),
          pray=ifelse(PRAY<0, NA, PRAY),
          god=ifelse(GOD<0, NA, GOD),
-         age=ifelse(AGE<0, NA, AGE),
          race=ifelse(RACE<0, NA, RACE),
          afterlife=ifelse(AFTERLIF<0, NA, AFTERLIF),
          racecen1=ifelse(RACECEN1<0, NA, RACECEN1),
@@ -55,7 +54,6 @@ gss <- gss |>
 #table(gss$RELIG, gss$relig, exclude=NULL)
 #table(gss$PRAY, gss$pray, exclude=NULL)
 #table(gss$GOD, gss$god, exclude=NULL)
-#table(gss$AGE, gss$age, exclude=NULL)
 #table(gss$RACE, gss$race, exclude=NULL)
 #table(gss$RACECEN1, gss$racecen1, exclude=NULL)
 #table(gss$RACECEN2, gss$racecen2, exclude=NULL)
