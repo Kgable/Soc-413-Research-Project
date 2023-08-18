@@ -28,7 +28,7 @@ gss <- read_fwf(here("data","data_raw","GSS.dat"),
 ## Code variables
 
 ```{r}
-#| label: Removing missing values
+#| label: assign-missing-values
 gss <- gss |>
   mutate(year=YEAR,
          educ=ifelse(EDUC<0, NA, EDUC),
@@ -47,179 +47,185 @@ gss <- gss |>
 ```
 
 ```{r}
-#| label: check-ed missing values
-#table(gss$EDUC, gss$educ, exclude=NULL)
-#table(gss$SEX, gss$sex, exclude=NULL)
-#table(gss$ATTEND, gss$attend, exclude=NULL)
-#table(gss$RELIG, gss$relig, exclude=NULL)
-#table(gss$PRAY, gss$pray, exclude=NULL)
-#table(gss$GOD, gss$god, exclude=NULL)
-#table(gss$RACE, gss$race, exclude=NULL)
-#table(gss$RACECEN1, gss$racecen1, exclude=NULL)
-#table(gss$RACECEN2, gss$racecen2, exclude=NULL)
-#table(gss$RACECEN3, gss$racecen3, exclude=NULL)
-#table(gss$HISPANIC, gss$hispanic, exclude=NULL)
-#table(gss$RELITEN, gss$reliten, exclude=NULL)
+#| label: limit-years
+gss <- gss |>
+  filter(year>=2006 & year<=2018)
 ```
 
 ```{r}
-#| label: Collapsing racial identifications.
+#| label: code-sex
 gss <- gss |>
-  mutate(racecat=case_when(
-    racecen1==16 | hispanic>=2 ~ "latinX",
-    !is.na(racecen2) ~ "multiracial",
-    racecen1==1 ~ "white",
-    racecen1==2 ~ "black",
-    racecen1>=4 & racecen1<=10 ~ "asian",
-    racecen1==3 | (racecen1>=11 & racecen1<=14) ~ "indigenous/pacific_islander",
-    TRUE ~ NA_character_
-  ))
-  
-table(gss$racecen1, gss$racecat, exclude=NULL)
-table(gss$racecen2, gss$racecat, exclude=NULL)
-table(gss$hispanic, gss$racecat, exclude=NULL)
-```
-
-```{r}
-#| label: Collapsing highest educational attainment.
-gss <- gss |>
-  mutate(edattain=case_when(
-    educ<=11 ~ "less than high school",
-    educ==12 ~ "high school",
-    educ>=13 & educ<=15 ~ "some college",
-    educ==16 ~ "bachelors",
-    educ>=17 ~ "graduate",
-    TRUE ~ NA_character_
-  ))
-  
-table(gss$educ, gss$edattain, exclude=NULL)
-```
-
-```{r}
-#| label: Recoding religious preference variable
-gss <- gss |>
-  mutate(religpref=case_when(
-    relig==1 ~ "pretestant",
-    relig==2 ~ "catholic",
-    relig==3 ~ "jewish",
-    relig==4 ~ "none",
-    relig==5 ~ "other",
-    relig==6 ~ "buddhism",
-    relig==7 ~ "hinduism",
-    relig==8 ~ "other eastern religions",
-    relig==9 ~ "muslim/islam",
-    relig==10 ~ "orthodox christian",
-    relig==11 ~ "chistrian",
-    relig==12 ~ "indigenous",
-    relig==13 ~ "non-denominational",
-    TRUE ~ NA_character_
-  ))
-
-table(gss$relig, gss$religpref, exclude=NULL)
-```
-
-```{r}
-#| label: Collapsing religious attendance
-gss <- gss |>
-  mutate(religattend=case_when(
-    attend==0 ~ "never",
-    attend>=1 & attend<=2 ~ "yearly",
-    attend>=3 & attend<=4 ~ "monthly",
-    attend>=5 & attend<=7 ~ "weekly",
-    attend==8 ~ "more than weekly",
-    TRUE ~ NA_character_
-  ))
-
-table(gss$attend, gss$religattend, exclude=NULL)
-```
-
-```{r}
-#| label: Collapsing Prayer Frequency
-gss <- gss |>
-  mutate(prayfreq=case_when(
-    pray==6 ~ "never",
-    pray>=4 & pray<=5 ~ "weekly",
-    pray>=2 & pray<=3 ~ "daily",
-    pray==1 ~ "more than daily",
-    TRUE ~ NA_character_
-  ))
-
-table(gss$pray, gss$prayfreq, exclude=NULL)
-```
-
-```{r}
-#| label: Collapsing belief in god
-gss <- gss |>
-  mutate(bgod=case_when(
-    god>=2 ~ "no belief",
-    god==3 ~ "higher power",
-    god>=4 & god<=5 ~ "belief/doubts",
-    god==6 ~ "no doubt",
-    TRUE ~ NA_character_
-  ))
-
-table(gss$god, gss$bgod, exclude=NULL)
-```
-
-```{r}
-#| label: Recoding sex variable
-gss <- gss |>
-  mutate(ssex=case_when(
+  mutate(resp_sex=factor(case_when(
     sex==1 ~ "male",
-    sex==2 ~"male",
+    sex==2 ~"female",
     TRUE ~ NA_character_
-  ))
+  )))
 
-table(gss$sex, gss$ssex, exclude=NULL)
+table(gss$sex, gss$resp_sex, exclude=NULL)
 ```
 
 ```{r}
-#| label: Reordering reliten variable
+#| label: code-race
 gss <- gss |>
-  mutate(religimp=case_when(
-    reliten==1 ~ 4, # strong
-    reliten==2 ~ 3, # somewhat strong
-    reliten==3 ~ 2, # not strong
-    reliten==4 ~ 1, # no religion
-  ))
-
-table(gss$reliten, gss$religimp, exclude=NULL)
-
+  mutate(race=factor(
+    case_when(
+      racecen1==16 | hispanic>=2 ~ "latinx",
+      !is.na(racecen2) ~ "multiracial",
+      racecen1==1 ~ "white",
+      racecen1==2 ~ "black",
+      racecen1>=4 & racecen1<=10 ~ "asian",
+      racecen1==3 | (racecen1>=11 & racecen1<=14) ~ "aian/pi",
+      TRUE ~ NA_character_),
+    levels=c("white","black","latinx","asian","aian/pi")))
+  
+table(gss$racecen1, gss$race, exclude=NULL)
+table(gss$racecen2, gss$race, exclude=NULL)
+table(gss$hispanic, gss$race, exclude=NULL)
 ```
 
 ```{r}
-#| label: Recoding reliten variable
+#| label: code-educ
 gss <- gss |>
-  mutate(religimp=case_when(
-    reliten==4 ~ "strong",
-    reliten==3 ~ "somewhat strong",
-    reliten==2 ~ "not strong",
-    reliten==1 ~ "no religion",
-    TRUE ~ NA_character_
-  ))
-
-table(gss$reliten, gss$religimp, exclude=NULL)
+  mutate(educ_attain=factor(
+    case_when(
+      educ<=11 ~ "less than high school",
+      educ==12 ~ "high school",
+      educ>=13 & educ<=15 ~ "some college",
+      educ==16 ~ "bachelors",
+      educ>=17 ~ "graduate",
+      TRUE ~ NA_character_),
+    levels=c("less than high school","high school","some college","bachelors",
+             "graduate")))
+  
+table(gss$educ, gss$educ_attain, exclude=NULL)
 ```
 
 ```{r}
-#| label: reverse coding prayer frequency
+#| label: code-relig-affil
+gss <- gss |>
+  mutate(relig_affil=factor(
+    case_when(
+      relig==1 ~ "protestant",
+      relig==2 ~ "catholic",
+      relig==10 | relig==11 | relig==13 ~ "other christian",
+      relig==3 ~ "jewish",
+      relig==4 ~ "none",
+      relig==6 ~ "buddhist",
+      relig==7 ~ "hindu",
+      relig==9 ~ "muslim",
+      is.na(relig) ~ NA_character_,
+      TRUE ~ "other"),
+    levels=c("protestant","catholic","other christian","jewish","muslim",
+             "buddhist","hindu","other","none")))
+
+table(gss$relig, gss$relig_affil, exclude=NULL)
+```
+
+```{r}
+#| label: code-service-attend
+gss <- gss |>
+  mutate(relig_attend=factor(
+    case_when(
+      attend==0 ~ "never",
+      attend>=1 & attend<=2 ~ "yearly",
+      attend>=3 & attend<=4 ~ "monthly",
+      attend>=5 & attend<=7 ~ "weekly",
+      attend==8 ~ "more than weekly",
+      TRUE ~ NA_character_),
+    levels=c("never","yearly","monthly","weekly","more than weekly")))
+
+table(gss$attend, gss$relig_attend, exclude=NULL)
+```
+
+```{r}
+#| label: code-prayer-freq
+gss <- gss |>
+  mutate(pray_freq=factor(
+    case_when(
+      pray==6 ~ "never",
+      pray>=4 & pray<=5 ~ "weekly",
+      pray>=2 & pray<=3 ~ "daily",
+      pray==1 ~ "more than daily",
+      TRUE ~ NA_character_),
+    levels=c("never","weekly","daily","more than daily")))
+
+table(gss$pray, gss$pray_freq, exclude=NULL)
+
+# reverse code the original quant variable
 gss$pray <- 7-gss$pray
 ```
 
 ```{r}
-#| label: verifying alpha
-alpha(gss[, c("attend", "pray", "god", "reliten")])
+#| label: code-god-belief
+gss <- gss |>
+  mutate(believe_god=factor(
+    case_when(
+      god<=2 ~ "no belief",
+      god==3 ~ "higher power",
+      god>=4 & god<=5 ~ "believe with doubts",
+      god==6 ~ "believe with no doubts",
+      TRUE ~ NA_character_),
+    levels=c("no belief","higher power", "believe with doubts",
+             "believe with no doubts")))
+
+table(gss$god, gss$believe_god, exclude=NULL)
 ```
 
 ```{r}
-#| label: Standardizing belief in relgiosity variables.
+#| label: code-relig-imp
+gss <- gss |>
+  mutate(relig_imp=case_when(
+    reliten==1 ~ 4, # strong
+    reliten==3 ~ 3, # somewhat strong
+    reliten==2 ~ 2, # not very strong
+    reliten==4 ~ 1, # no religion
+  ))
+
+table(gss$reliten, gss$relig_imp, exclude=NULL)
+
+```
+
+```{r}
+#| label: code-relig-imp-categorical
+gss <- gss |>
+  mutate(relig_imp_cat=factor(
+    case_when(
+      relig_imp==4 ~ "strong",
+      relig_imp==3 ~ "somewhat strong",
+      relig_imp==2 ~ "not strong",
+      relig_imp==1 ~ "no religion",
+      TRUE ~ NA_character_),
+    levels=c("no religion","not strong","somewhat strong","strong")))
+
+table(gss$relig_imp, gss$relig_imp_cat, exclude=NULL)
+```
+
+```{r}
+#| label: code-reverse-pray
+```
+
+```{r}
+#| label: religiosity-alpha
+alpha(gss[, c("attend", "pray", "god", "relig_imp")])
+```
+
+```{r}
+#| label: create-summated-scale
 standardize <- function(x) {
   (x-mean(x, na.rm=TRUE))/sd(x, na.rm=TRUE)
 }
 gss <- gss |>
   mutate(religiosity=standardize(standardize(attend)+
-                                   standardize(pray)+standardize(god)+
-                                   standardize(reliten)))
+                                   standardize(pray)+
+                                   standardize(god)+
+                                   standardize(relig_imp)))
+
+# check correlations with components
+cor(gss[,c("religiosity","attend", "pray", "god", "relig_imp")],
+    use="pairwise.complete.obs")
+
+# check missing value pattern by year
+table(gss$year, is.na(gss$religiosity))
 ```
 
 ## Save it all
@@ -227,8 +233,11 @@ gss <- gss |>
 ```{r}
 #| label: save-analytical-data
 gss <- gss |>
-  select(year, edattain, ssex, religattend,
-         prayfreq, racecat, religiosity, religpref, religimp, bgod)
+  select(year, resp_sex, educ_attain, race,
+         relig_affil, religiosity, relig_attend, pray_freq, believe_god, 
+         relig_imp_cat) |>
+  rename(relig_imp=relig_imp_cat) |>
+  drop_na()
 
 save(gss, file=here("data","data_constructed","analytical_data.RData"))
 ```
