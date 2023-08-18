@@ -16,11 +16,11 @@ source(here("utils","functions.R"))
 #| label: read-data
 gss <- read_fwf(here("data","data_raw","GSS.dat"), 
                 col_positions = 
-                  fwf_positions(start=c(1, 6, 11, 16, 31, 35, 40, 45, 49, 54, 59, 64, 69, 74),
-                                end  =c(5, 10, 15, 20, 34, 39, 44, 48, 53, 58, 63, 68, 73, 78),
+                  fwf_positions(start=c(1, 6, 11, 16, 31, 35, 40, 45, 49, 54, 59, 64, 69, 74, 26),
+                                end  =c(5, 10, 15, 20, 34, 39, 44, 48, 53, 58, 63, 68, 73, 78, 30),
                                 col_names=c("HISPANIC", "RACECEN1", "RACECEN2", "RACECEN3",
                                             "EDUC", "SEX", "RACE", "RELIG", "ATTEND",
-                                            "RELITEN", "PRAY", "GOD", "AFTERLIF", "YEAR")))
+                                            "RELITEN", "PRAY", "GOD", "AFTERLIF", "YEAR", "AGE")))
 
 
 ```
@@ -31,6 +31,7 @@ gss <- read_fwf(here("data","data_raw","GSS.dat"),
 #| label: assign-missing-values
 gss <- gss |>
   mutate(year=YEAR,
+         age=ifelse(AGE<0, NA, AGE),
          educ=ifelse(EDUC<0, NA, EDUC),
          attend=ifelse(ATTEND<0, NA, ATTEND),
          sex=ifelse(SEX<0, NA, SEX),
