@@ -54,13 +54,30 @@ gss <- gss |>
 ```
 
 ```{r}
+#| label: code-age
+gss <- gss |>
+  mutate(resp_age=factor(case_when(
+    age>=18 & age<=29 ~ "18-29",
+    age>=30 & age<=39 ~ "30-39",
+    age>=40 & age<=49 ~ "40-49",
+    age>=50 & age<=59 ~ "50-59",
+    age>=60 & age<=69 ~ "60-69",
+    age>=70 ~ "70 and above",
+    TRUE ~ NA_character_),
+    levels=c("18-29", "30-39", "40-49", "50-59",
+             "60-69", "70 and above")))
+
+table(gss$age, gss$resp_age, exclude = NULL)
+```
+
+```{r}
 #| label: code-sex
 gss <- gss |>
   mutate(resp_sex=factor(case_when(
     sex==1 ~ "male",
     sex==2 ~"female",
     TRUE ~ NA_character_
-  )))
+    )))
 
 table(gss$sex, gss$resp_sex, exclude=NULL)
 ```
@@ -234,7 +251,7 @@ table(gss$year, is.na(gss$religiosity))
 ```{r}
 #| label: save-analytical-data
 gss <- gss |>
-  select(year, resp_sex, educ_attain, race,
+  select(year, resp_age, resp_sex, educ_attain, race,
          relig_affil, religiosity, relig_attend, pray_freq, believe_god, 
          relig_imp_cat) |>
   rename(relig_imp=relig_imp_cat) |>
