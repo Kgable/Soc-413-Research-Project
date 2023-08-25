@@ -113,7 +113,7 @@ group_by(relig_affil, resp_sex) |>
   ungroup() |>
   ggplot(aes(x=relig_affil, y=relig_attend, fill=resp_sex))+
   geom_col(position="dodge")+
-  #scale_fill_viridis_d()+
+  scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123"))+
   theme_bw()
 ```
@@ -209,7 +209,7 @@ gss |> filter(!is.na(educ_attain), !is.na(resp_sex),
 model1<-glm(religiosity~educ_attain+resp_age+I(resp_age^2), data=gss)
 model2<-update(model1, .~.,+resp_sex+I(resp_age^2))
 model3<-update(model2, .~., +race+I(resp_age^2))
-model4<-update(model3,.~.+gender+education*race+I(resp_age^2))
+model4<-update(model3,.~.+resp_sex+educ_attain*race+I(resp_age^2))
 ```
 
 ```{r}
