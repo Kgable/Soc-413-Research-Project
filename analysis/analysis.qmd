@@ -15,7 +15,8 @@ load(here("data","data_constructed","analytical_data.RData"))
 ```{r}
 #| Label: fig-Educational_attainment
 #| fig-cap: Level of educational attainment among respondents. 
-ggplot(data=subset(gss, !is.na(educ_attain)), aes(x=educ_attain, y=after_stat(prop), group=1))+
+gss |>
+  ggplot(aes(x=educ_attain, y=after_stat(prop), group=1))+
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
   labs(x="Education Level Attained", y=NULL, 
@@ -26,13 +27,13 @@ ggplot(data=subset(gss, !is.na(educ_attain)), aes(x=educ_attain, y=after_stat(pr
 ```{r}
 #| label: fig-Education_by_relig_affiliation
 #| fig-cap: Level of educational attainment  of respondents by religious afiliation.
-gss |> filter(!is.na(educ_attain), !is.na(relig_affil)) |>
-  ggplot(aes(x=educ_attain, y=after_stat(prop), group=1))+
-  geom_bar()+
-  facet_wrap(~relig_affil)+
+gss |>
+  ggplot(aes(x=educ_attain, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
+  geom_bar(position="dodge")+
   scale_y_continuous(labels = scales::percent)+
   labs(x=NULL, y=NULL, 
        title="Education Level by Religious Affiliation")+
+  scale_fill_manual(values=qualpal(9)$hex)+
   coord_flip()+
   theme_bw()
 ```
