@@ -41,21 +41,31 @@ gss |>
 ```{r}
 #| label: fig-Education_by_race
 #| fig-cap: Level of educational attainment of respondents by racial identification.
-gss |> filter(!is.na(educ_attain), !is.na(race)) |>
-  ggplot(aes(x=educ_attain, y=after_stat(prop), group=1))+
-  geom_bar()+
+#gss |>
+ # ggplot(aes(x=educ_attain, y=after_stat(prop), group=1))+
+  #geom_bar()+
+  #facet_wrap(~race)+
+  #scale_y_continuous(labels = scales::percent)+
+  #labs(x=NULL, y=NULL, 
+   #    title="Education Level by Racial Identification")+
+  #coord_flip()+
+  #theme_bw()
+
+gss |>  
+  ggplot(aes(x=educ_attain, y=after_stat(prop), group=educ_attain, fill=educ_attain))+
+  geom_bar(position="dodge")+
   facet_wrap(~race)+
-  scale_y_continuous(labels = scales::percent)+
-  labs(x=NULL, y=NULL, 
-       title="Education Level by Racial Identification")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
   coord_flip()+
   theme_bw()
+
 ```
 
 ```{r}
 #| label: fig-Education_by_sex
 #| fig-cap: Level of educational attainment of respondents by sex.
-gss |> filter(!is.na(educ_attain), !is.na(resp_sex)) |>
+gss |>
   ggplot(aes(x=educ_attain, y=after_stat(prop), group=1))+
   geom_bar()+
   facet_wrap(~resp_sex)+
@@ -109,13 +119,12 @@ gss |> filter(!is.na(relig_attend), !is.na(race)) |>
 #| label: fig-Religious_attend_by_resp_sex_and_relig_affil
 #| fig-cap: Religious Attendence by Respondents Sex and Religious Affiliation
 gss |>  
-group_by(relig_affil, resp_sex) |>
-  summarize(relig_attend) |>
-  ungroup() |>
-  ggplot(aes(x=relig_affil, y=relig_attend, fill=resp_sex))+
-  geom_col(position="dodge")+
-  scale_fill_viridis_d()+
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=resp_sex, fill=resp_sex))+
+  geom_bar(position="dodge")+
+  facet_wrap(~relig_affil)+
+  #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123"))+
+  coord_flip()+
   theme_bw()
 ```
 
@@ -205,12 +214,11 @@ gss |>
 
 ```{r}
 #| Label: Modeling Religiosity 
-gss |> filter(!is.na(educ_attain), !is.na(resp_sex),
-              !is.na(relig_affil), !is.na(race), !is.na(resp_age)) |>
-model1<-glm(religiosity~educ_attain+resp_age+I(resp_age^2), data=gss)
-model2<-update(model1, .~.,+resp_sex+I(resp_age^2))
-model3<-update(model2, .~., +race+I(resp_age^2))
-model4<-update(model3,.~.+resp_sex+educ_attain*race+I(resp_age^2))
+model1 <- glm(religiosity~resp_sex*race+educ_attain*race, data=gss)
+model2 <- update(model1, .~.+resp_age+as.factor(year))
+model3 <- update(model2, .~.+relig_affil)
+model4 <- update(model3,.~.+relig_affil*resp_sex)
+
 ```
 
 ```{r}
