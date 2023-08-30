@@ -27,15 +27,27 @@ gss |>
 ```{r}
 #| label: fig-Education_by_relig_affiliation
 #| fig-cap: Level of educational attainment  of respondents by religious afiliation.
-gss |>
+#gss |>
+  #ggplot(aes(x=educ_attain, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
+  #geom_bar(position="dodge")+
+  #scale_y_continuous(labels = scales::percent)+
+  #labs(x=NULL, y=NULL, 
+       #title="Education Level by Religious Affiliation")+
+  #scale_fill_manual(values=qualpal(9)$hex)+
+  #coord_flip()+
+  #theme_bw()
+
+gss |>  
   ggplot(aes(x=educ_attain, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
   geom_bar(position="dodge")+
-  scale_y_continuous(labels = scales::percent)+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
   labs(x=NULL, y=NULL, 
        title="Education Level by Religious Affiliation")+
-  scale_fill_manual(values=qualpal(9)$hex)+
   coord_flip()+
   theme_bw()
+
 ```
 
 ```{r}
@@ -52,11 +64,13 @@ gss |>
   #theme_bw()
 
 gss |>  
-  ggplot(aes(x=educ_attain, y=after_stat(prop), group=educ_attain, fill=educ_attain))+
+  ggplot(aes(x=educ_attain, y=after_stat(prop), group=race, fill=race))+
   geom_bar(position="dodge")+
-  facet_wrap(~race)+
+  #facet_wrap(~race)+
   #scale_fill_viridis_d()+
-  scale_fill_manual(values=c("#154733","#FEE123"))+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black" ))+
+  labs(x=NULL, y=NULL, 
+       title="Education Level by Racial Identification")+
   coord_flip()+
   theme_bw()
 
