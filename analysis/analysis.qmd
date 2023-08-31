@@ -260,7 +260,7 @@ Here we see a distribution indicating females have the highest rate, on average,
 
 ```{r}
 #| Label: fig-Religiousity_by_education_and_race
-#| fig-cap: religiousity by repsondents education level and race
+#| fig-cap: Religiousity by Repsondents Education Level and Race
 gss |>
   group_by(race, educ_attain) |>
   summarize(religiosity=mean(religiosity)) |>
@@ -269,6 +269,8 @@ gss |>
   geom_col(position="dodge")+
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Education and Race")+
   theme_bw()
 ```
 
@@ -285,10 +287,30 @@ gss |>
   geom_col(position="dodge")+
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Sex and Race")+
   theme_bw()
 ```
 
 This is the distribution of religiosity across race and gender. Women tend to be more religious than men, on average. The division among white, asian/pi, and LatinX is interesting. This points to a large gap in religiosity among men and women in those racial categories. Why? 
+
+```{r}
+#| Label: fig-Religiousity_by_education_and_respondents_sex
+#| fig-cap: Religiousity by Repsondents Education Level and Sex
+gss |>
+  group_by(educ_attain, resp_sex) |>
+  summarize(religiosity=mean(religiosity)) |>
+  ungroup() |>
+  ggplot(aes(x=educ_attain, y=religiosity, fill=resp_sex))+
+  geom_col(position="dodge")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Sex and Educational Level")+
+  theme_bw()
+```
+
+In each category females are more religious than males. Of interest is those with graduate degrees. Females with graduate degrees have a trend in the same direction as males. Every other category there is a stark difference. Why?
 
 ```{r}
 #| Label: Modeling Religiosity 
