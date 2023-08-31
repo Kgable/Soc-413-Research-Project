@@ -24,19 +24,11 @@ gss |>
   theme_bw()
 ```
 
+This is the univariate distribution of education level of respondents. The most common education level attained overall is high school and some college. Note, some college includes those with associate degrees and trade skills. 
+
 ```{r}
 #| label: fig-Education_by_relig_affiliation
 #| fig-cap: Level of educational attainment  of respondents by religious afiliation.
-#gss |>
-  #ggplot(aes(x=educ_attain, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
-  #geom_bar(position="dodge")+
-  #scale_y_continuous(labels = scales::percent)+
-  #labs(x=NULL, y=NULL, 
-       #title="Education Level by Religious Affiliation")+
-  #scale_fill_manual(values=qualpal(9)$hex)+
-  #coord_flip()+
-  #theme_bw()
-
 gss |>  
   ggplot(aes(x=educ_attain, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
   geom_bar(position="dodge")+
@@ -47,22 +39,13 @@ gss |>
        title="Education Level by Religious Affiliation")+
   coord_flip()+
   theme_bw()
-
 ```
+
+This is the distribution of education along religious affiliation. The highest number of graduate degrees is held by those in the Hindu group. This may be due to immigration aspects linked to education visas. This group has the highest bachelors degree as well. The christian groups seem to have the highest representation in the lowest education categories. This raises a questions. 1) Is this related to socioeconomic status? 2) If it is not, why then do Christians over-represent in these categories? The Jewish category seems to increase in stair-like increments. Why? Is this also a socioeconomic issue? 
 
 ```{r}
 #| label: fig-Education_by_race
 #| fig-cap: Level of educational attainment of respondents by racial identification.
-#gss |>
- # ggplot(aes(x=educ_attain, y=after_stat(prop), group=1))+
-  #geom_bar()+
-  #facet_wrap(~race)+
-  #scale_y_continuous(labels = scales::percent)+
-  #labs(x=NULL, y=NULL, 
-   #    title="Education Level by Racial Identification")+
-  #coord_flip()+
-  #theme_bw()
-
 gss |>  
   ggplot(aes(x=educ_attain, y=after_stat(prop), group=race, fill=race))+
   geom_bar(position="dodge")+
@@ -73,27 +56,32 @@ gss |>
        title="Education Level by Racial Identification")+
   coord_flip()+
   theme_bw()
-
 ```
+
+This is the education level across racial categories. LantiX is heavily represented in the lowest education categories. This is possibly due to language barriers within education and/or access to education. Black and Asian/PI groups hold thi largest representation within the "some college" categories. Is this due to socioeconomic issues? 
 
 ```{r}
 #| label: fig-Education_by_sex
 #| fig-cap: Level of educational attainment of respondents by sex.
-gss |>
-  ggplot(aes(x=educ_attain, y=after_stat(prop), group=1))+
-  geom_bar()+
-  facet_wrap(~resp_sex)+
-  scale_y_continuous(labels = scales::percent)+
+gss |>  
+  ggplot(aes(x=educ_attain, y=after_stat(prop), group=resp_sex, fill=resp_sex))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
   labs(x=NULL, y=NULL, 
        title="Education Level by Sex")+
   coord_flip()+
   theme_bw()
 ```
 
+Here is the level of education across sex. Women, on average, obtain more high school and some college than men. This points to a curious observation and future consideration. Why do men seem to hold the highest levels of less than high school, bachelors, and graduate degrees? Why the apparent plorization between no education and highly educated? Is this even useful in this analysis? 
+
 ```{r}
 #| label: fig-Religious Attendance
 #| fig-cap: Religious attendance of respondents. 
-ggplot(data=subset(gss, !is.na(relig_attend)), aes(x=relig_attend, y=after_stat(prop), group=1))+
+gss |>
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=1))+
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
   labs(x="Religious Attendance", y=NULL, 
@@ -101,33 +89,75 @@ ggplot(data=subset(gss, !is.na(relig_attend)), aes(x=relig_attend, y=after_stat(
   theme_bw()
 ```
 
+This is the distribution of religious attendance among respondents. Weekly attendance is the highest mode. The second highest is never. 
+
+```{r}
+#| label: fig-Religious_attendance_by_religious_affiliation
+#| fig-cap: Religious Attendance by Religious Affiliation
+gss |>  
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
+  labs(x=NULL, y=NULL, 
+       title="Religious Attendance by Religious Affiliation")+
+  coord_flip()+
+  theme_bw()
+```
+
+This shows the distribution of religious attendance along religious affiliation. Things to note: 1) Buddhists are heavily represented in the "never" category. This may be due to the Buddhist religious structure. What are the attendance "requirements" for Buddhists? This may also be similar for those in the "other" category. Less attendance does not directly translate into less religious.
+
+```{r}
+#| label: fig-Religious_attendence_by_race
+#| fig-cap: Religious attendence of respondents by racial identification.
+gss |>  
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=race, fill=race))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black" ))+
+  labs(x=NULL, y=NULL, 
+       title="Religious Attendance by Racial Identification")+
+  coord_flip()+
+  theme_bw()
+```
+
+Those identified in the Black racial category exceed all others in weekly attendance. This is a significant difference. Why? Is there a cultural element influencing this distribution? 
+
+```{r}
+#| label: fig-Religious_attendance_by_education_level
+#| fig-cap: Religious Attendance by Educaltion Level.
+gss |>  
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=educ_attain, fill=educ_attain))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
+  labs(x=NULL, y=NULL, 
+       title="Education Level by Religious Affiliation")+
+  coord_flip()+
+  theme_bw()
+```
+
+This shows the distribution of religious attendance by level of education. The highest mode is weekly attendance. Each educational level is well represented in the "weekly" category. The second highest distribution is the "never" category. This is not contradictory of the literature. Those with no religious affiliation are found to still engage at home. 
+
 ```{r}
 #| label: fig-Religious Attendance by Sex
 #| fig-cap: Religious attendance of respondents by sex.
-gss |> filter(!is.na(relig_attend), !is.na(resp_sex)) |>
-  ggplot(aes(x=relig_attend, y=after_stat(prop), group=1))+
-  geom_bar()+
-  facet_wrap(~resp_sex)+
-  scale_y_continuous(labels = scales::percent)+
+gss |>  
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=resp_sex, fill=resp_sex))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
   labs(x=NULL, y=NULL, 
        title="Religious Attendance by Sex")+
   coord_flip()+
   theme_bw()
 ```
 
-```{r}
-#| label: fig-Religious_attendence_by_race
-#| fig-cap: Religious attendence of respondents by racial identification.
-gss |> filter(!is.na(relig_attend), !is.na(race)) |>
-  ggplot(aes(x=relig_attend, y=after_stat(prop), group=1))+
-  geom_bar()+
-  facet_wrap(~race)+
-  scale_y_continuous(labels = scales::percent)+
-  labs(x=NULL, y=NULL, 
-       title="Education Level by Racial Identification")+
-  coord_flip()+
-  theme_bw()
-```
+This distribution shows females, on average, attend religious functions more than males on a weekly and more-than-weekly basis. However, males are represented more on the monthly, yearly, and never categories. This seems in line with literature indicating females, on average, are more religious than males. But, how does this distribute across religious affiliations? What about across racial categories? 
 
 ```{r}
 #| label: fig-Religious_attend_by_resp_sex_and_relig_affil
@@ -142,25 +172,13 @@ gss |>
   theme_bw()
 ```
 
-```{r}
-#| label: fig-Religious_attend_by_resp_sex_and_relig_affil
-#| fig-cap: Religious Attendence by Respondents Sex and Religious Affiliation
-gss |> filter(!is.na(relig_attend), !is.na(resp_sex),
-              !is.na(relig_affil)) |>
-  ggplot(aes(x=relig_affil, y=relig_attend, group=1))+
-  geom_bar()+
-  facet_wrap(~resp_sex)+
-  #scale_y_continuous(labels = scales::percent)+
-  labs(x=NULL, y=NULL, 
-       title="Religious Attendance by Sex and Race")+
-  coord_flip()+
-  theme_bw()
-```
+Here we see females in the christian group have the highest religious attendance in the weekly and more-than-weekly categories. Males have the highest attendance in the Muslim religion. This may be due to cultural structures. Also, Hindu's are not reporting attending services more-than-weekly at all. This too may be due to the structure of the religion. Attendance may not be needed more than weekly. Also, females in the Buddhist category only exceed men in the "never" category. Why? This may be related to structural issues as well. This shows an interesting issue in measuring the "religiosity" variable. Men attend services in the Muslim religion more than men. This may be due to gender restrictions in service locations. Hindu's seem to never attend service more than once a week. This may be a structural component of the religion. These issues need to be investigated. They influence the measure of religiosity and may be skewing results.
 
 ```{r}
 #| Label: fig-Belief_in_god
 #| fig-cap: Belief in god among respondents. 
-ggplot(data=subset(gss, !is.na(believe_god)), aes(x=believe_god, y=after_stat(prop), group=1))+
+gss |>
+  ggplot(aes(x=believe_god, y=after_stat(prop), group=1))+
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
   labs(x="Belief in God", y=NULL, 
@@ -168,47 +186,93 @@ ggplot(data=subset(gss, !is.na(believe_god)), aes(x=believe_god, y=after_stat(pr
   theme_bw()
 ```
 
+This is the distribution of the belief in god. This may be problematic. This question was only asked of those who indicated a religious affiliation. 
+
 ```{r}
 #| label: fig-Beleif_in_god_by_religious_affiliation
 #| fig-cap: Belief in god of respondents by religious afiliation.
-gss |> filter(!is.na(believe_god), !is.na(relig_affil)) |>
-  ggplot(aes(x=believe_god, y=after_stat(prop), group=1))+
-  geom_bar()+
-  facet_wrap(~relig_affil)+
-  scale_y_continuous(labels = scales::percent)+
+gss |>  
+  ggplot(aes(x=believe_god, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
   labs(x=NULL, y=NULL, 
        title="Belief in god by Religious Affiliation")+
   coord_flip()+
   theme_bw()
 ```
 
+Here, Christians and Muslims indicate the highest level of belief in god. However, this could be problematic. Buddhists have the highest belief in a higher power. This variable is ordinal, believing in a "higher power" and believing in "god" could be seen as the same thing. It may skew the measure of religiosity if the belief rating is built this way. 
+
 ```{r}
 #| label: fig-Belief_in_god_by_race
 #| fig-cap: Belief in god of respondents by racial identification.
-gss |> filter(!is.na(believe_god), !is.na(race)) |>
-  ggplot(aes(x=believe_god, y=after_stat(prop), group=1))+
-  geom_bar()+
-  facet_wrap(~race)+
-  scale_y_continuous(labels = scales::percent)+
+gss |>  
+  ggplot(aes(x=believe_god, y=after_stat(prop), group=race, fill=race))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black" ))+
   labs(x=NULL, y=NULL, 
-       title="Belief in god by Racial Identification")+
+       title="Belief in God by Racial Identification")+
+  coord_flip()+
+  theme_bw()
+
+```
+
+The group with the highest measure in belief is black, followed by LatinX. Whites make the smallest group with belief and no doubt. How much of this is influenced by cultural aspects? Why? This too may skew the measure of religiosity.
+
+```{r}
+#| label: fig-Belief_god_by_education_level
+#| fig-cap: Belief in God by Educaltion Level.
+gss |>  
+  ggplot(aes(x=believe_god, y=after_stat(prop), group=educ_attain, fill=educ_attain))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple"))+
+  labs(x=NULL, y=NULL, 
+       title="Belief in God by Education Level")+
   coord_flip()+
   theme_bw()
 ```
 
+Here we see the belief in god across education levels. The highest category is belief with no doubt. This may be skewed by the sequence of questions. It is interesting among those who believe with no doubt are among the least educated among respondents. Why? Does this elude to an educational influence on religiosity. The literature made conflicting claims of correlation. I will need to investigate with models. On face-value, it seems education levels may negatively influence religiosity scores. 
+
 ```{r}
 #| label: fig-Belief_in_god_by_sex
 #| fig-cap: Belief in god of respondents by sex.
-gss |> filter(!is.na(believe_god), !is.na(resp_sex)) |>
-  ggplot(aes(x=believe_god, y=after_stat(prop), group=1))+
-  geom_bar()+
-  facet_wrap(~resp_sex)+
-  scale_y_continuous(labels = scales::percent)+
+gss |>  
+  ggplot(aes(x=believe_god, y=after_stat(prop), group=resp_sex, fill=resp_sex))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
   labs(x=NULL, y=NULL, 
-       title="Belief in god by Sex")+
+       title="Belief in God by Sex")+
   coord_flip()+
   theme_bw()
+
 ```
+
+Here we see a distribution indicating females have the highest rate, on average, of belief with no doubt. Males score higher in every other category. 
+
+```{r}
+#| Label: fig-Religiousity_by_education_and_race
+#| fig-cap: religiousity by repsondents education level and race
+gss |>
+  group_by(race, educ_attain) |>
+  summarize(religiosity=mean(religiosity)) |>
+  ungroup() |>
+  ggplot(aes(x=race, y=religiosity, fill=educ_attain))+
+  geom_col(position="dodge")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple"))+
+  theme_bw()
+```
+
+Looking at religiosity by race and education seems to show distinct differences. Among black respondents, higher education levels are associated with higher religiosity scores. Among white respondents, higher education levels seem to be associated with lower religiosity scores with the exception of high school graduates. LatniX group is interestingly divided. What cultural reasons would cause this? 
 
 ```{r}
 #| Label: fig-Religiousity_by_sex_and_race
@@ -222,9 +286,9 @@ gss |>
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123"))+
   theme_bw()
-
 ```
 
+This is the distribution of religiosity across race and gender. Women tend to be more religious than men, on average. The division among white, asian/pi, and LatinX is interesting. This points to a large gap in religiosity among men and women in those racial categories. Why? 
 
 ```{r}
 #| Label: Modeling Religiosity 
