@@ -324,7 +324,7 @@ model4 <- update(model3,.~.+relig_affil*resp_sex)
 #| Label: fig-Rendering Models
 #| fig-cap: Models of religiosity with interaction terms.
 #to print to screen replace texreg with screenreg
-texreg(list(model1, model2, model3, model4),
+screenreg(list(model1, model2, model3, model4),
         #custom.coef.names = c(""),
        digits = 3,
        caption.above=TRUE, 
@@ -341,18 +341,17 @@ texreg(list(model1, model2, model3, model4),
 
 ```{r}
 #| Label: Modeling Religiosity Continued
-model1.1 <- glm(religiosity~educ_attain, data=gss)
+model1.1 <- glm(religiosity~educ_attain*age+I(age^2), data=gss)
 model2.2 <- update(model1.1, .~.+educ_attain*race, data=gss)
 model3.3 <- update(model2.2, .~.+resp_sex*race, data=gss)
 model4.4 <- update(model3.3, .~.+relig_affil)
-model5.5 <- update(model4.4, .~.+resp_age+I(age^2))
 ```
 
 ```{r}
 #| Label: fig-Rendering Models
 #| fig-cap: Models of religiosity with interaction terms.
 #to print to screen replace texreg with screenreg
-texreg(list(model1.1, model2.2, model3.3, model4.4, model5.5),
+screenreg(list(model1.1, model2.2, model3.3, model4.4),
         #custom.coef.names = c("high school", "some college", "bachelors", "graduate",
                              # "black", "latinX", "asian", "asian/pi", "HS*black", ""),
        digits = 3,
