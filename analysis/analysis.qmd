@@ -274,7 +274,39 @@ gss |>
   theme_bw()
 ```
 
-Looking at religiosity by race and education seems to show distinct differences. Among black respondents, higher education levels are associated with higher religiosity scores. Among white respondents, higher education levels seem to be associated with lower religiosity scores with the exception of high school graduates. LatniX group is interestingly divided. What cultural reasons would cause this? 
+Looking at religiosity by race and education seems to show distinct differences. Among black respondents, higher education levels are associated with higher religiosity scores. Among white respondents, higher education levels seem to be associated with lower religiosity scores with the exception of high school graduates. LatniX group is interestingly divided. What cultural reasons would cause this?
+
+```{r}
+#| label: 3-way Table of Religiosity by education and race
+#| fig-cap: Religiosity_table_by_education_and_race
+round(prop.table(table(gss$relig_affil, gss$race, gss$educ_attain),2),3)*100
+```
+
+Results for table not correct. Needs code fix.
+
+```{r}
+#| label: Stair-step approach for previous table
+ordered_factor <- function(fact_var) {
+  ord_fact <- factor(fact_var, ordered=TRUE)
+  categories <- levels(fact_var)
+  n_cat <- length(categories)
+  cont <- matrix(0, n_cat, n_cat-1)
+  cont[col(cont)<row(cont)] <- 1
+  rownames(cont) <- categories
+  colnames(cont) <- paste(categories[2:n_cat], categories[1:(n_cat-1)],
+                          sep=" vs. ")
+  contrasts(ord_fact) <- cont
+  return(ord_fact)
+}
+
+```
+
+```{r}
+#| label: Stair-step approach for previous table
+#| fig-cap: Religiosity_stair_step_table_by_education_and_race
+ordered_factor(gss$educ_attain)
+contrasts(gss$educ_attain)
+```
 
 ```{r}
 #| Label: fig-Religiousity_by_sex_and_race
