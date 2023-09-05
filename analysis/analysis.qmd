@@ -279,7 +279,7 @@ Looking at religiosity by race and education seems to show distinct differences.
 ```{r}
 #| label: 3-way Table of Religiosity by education and race
 #| fig-cap: Religiosity_table_by_education_and_race
-round(prop.table(table(gss$relig_affil, gss$race, gss$educ_attain),2),3)*100
+round(prop.table(table(gss$relig_affil, gss$educ_attain, gss$race),2),3)*100
 ```
 
 Results for table not correct. Needs code fix.
@@ -355,8 +355,9 @@ model4 <- update(model3,.~.+relig_affil*resp_sex)
 ```{r}
 #| Label: fig-Rendering Models
 #| fig-cap: Models of religiosity with interaction terms.
+#| results: asis
 #to print to screen replace texreg with screenreg
-screenreg(list(model1, model2, model3, model4),
+htmlreg(list(model1, model2, model3, model4),
         #custom.coef.names = c(""),
        digits = 3,
        caption.above=TRUE, 
