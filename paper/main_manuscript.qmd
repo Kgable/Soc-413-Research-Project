@@ -1,5 +1,5 @@
 ---
-title: "To Be Determined"
+title: "Religiosity as Influenced by Intersectionality"
 shorttitle: "Paper"
 abstract: An Abstract
 keywords: [keyword1, keyword2]
@@ -33,25 +33,11 @@ load(here("data","data_constructed","analytical_data.RData"))
 
 # Introduction
 
-Religious importance for some individuals in the United States has changed over the last century. The U.S. census reports an increasing population of those who religion is not a central feature of their lives. This increasing population of non-religious individuals is occurring within a system historically rooted in religion. One of the founding principles of the United States is the right to practice any religion. Why then are more and more people opting to practice no religion in the end of the 20th and beginning of the 21st century? One factor associated with the decline of personal religious importance may be education leading to, on average, a result showing as education increases, religious importance decreases. This research paper will examine the association between level of education and religious importance from across birth cohorts to see how this association varies with time and across gender. 
-
-In order to examine the association between the levels of education and importance of religion it is important to first consider a few variables. First, in order to measure how important religion is to a person, a term must be identified. This term is religiosity. It describes how important religion is to an individual. It is usually a compost measure of religious service attendance, prayer frequency, and intensity of belief in the afterlife. The specific criteria is detailed in the methods section. Identifying religiosity gives the ability to examine the relation between levels of education and religious importance. But, why include the time range of 1970-2020? Furthermore, why consider gender?
-
-The United States experienced a large increase in education after 1950. With social programs such as the G.I. Bill and Pell Grants, each year more people have access to higher education. The percentage of the total population earning a degree past high school has increased. This gives a unique opportunity to examine the association between the levels of education and religiosity as the percentage of the educated population increases. We should expect to see a change in the level of religiosity. Including gender is important because the gender demographic has changed over this time also. In 1970, higher education institutions were primarily occupied by males. Today, females outnumber most males on these campuses. This demographic change will likely influence the association between education and religiosity as the composition of the group to be studied will be changing internally. This may provide further areas of research. If there is a difference in the association between education and religiosity between men and women, on average, it will be interesting to examine why and what possible factors lead to this potential finding.[@alba1990]  
+  
 # Background
 
 # Data and Methods
-The raw data set contains variables intended to measure educational trends, variables intended to construct the variable religiosity, and additional variables considering gender, race, and potential financial measures. The data set was collected from the GSS website on 11 May 2023, and the file size is 4.8 Mb. The survey is a national survey and therefore is generalizable to the U.S. population. The education variable measures trends in educational achievement by recording an individual's highest degree earned. Religiosity is often used to measure the quality of an individual's religious beliefs, experiences, and social significance. The five most commonly used variables used to measure religiosity are present here; religious importance, prayer frequency, religious attendance, belief in god, and belief in an afterlife. The additional variable of religious preference tracks a respondent's declared religious affiliation. The sex variable tracks a respondent's declared gender.
 
-The additional variables of race, income, wealth, and childhood religious affiliation are collected for potential consideration. Race records the respondent's declared race. Income and wealth measures a family's yearly income and collective wealth respectively, as declared by the respondent. The childhood religious affiliation tracks a respondent's declared childhood religious affiliation.
-
-Data was available for education, sex, race, religious preference, and religious attendance for all years from 1972 through 2022. Other variables were not available for each year and therefore will be addressed in building the analytic data set.
-
-Building the analytic data set required some considerations. First, the variables of race, income, and childhood religious affiliation were not extracted due to lack of data available for income and childhood religious affiliation. Race was not considered in this analysis so it was not extracted. Second, educational data was collapsed into five categories; "less than high school", "high school", "some college", "bachelors", and "graduate". This results in the ordinal variable of educational attainment. Third, Religious attendance was collapsed into five categories; "never", "yearly", "monthly", "weekly", and "more than weekly". This results in the categorical variable of religious attendance. Fourth, prayer frequency was collapsed into four categories; "never", "weekly", "daily", and "more than daily". Fifth, belief in god was collapsed into four categories; "no belief" (indicating no belief in a god or higher power), "higher power" (indicating belief in a higher power but not a personal god), "belief/doubt" (indicating belief in god or a higher power but respondents has some doubt), and "no doubt" (indicating the respondent has belief in a personal god and has no doubt in their belief).
-
-The sixth consideration concerned building the religiosity variable. Data for religious importance and belief in the afterlife were not available for most of the GSS data range. With such a limited range of data available for these two variables, they were dropped and not considered.Therefore, the religiosity variable was constructed by creating a summated scale of and standardizing religious attendance, prayer frequency, and belief in god to each have a mean of zero and a standard deviation of one.
-
-The final consideration concerned building birth cohorts. Each cohort was created at a decade interval. Due to lack of data before 1900, the cohorts of 1880-1899 were collapsed into one cohort. Additionally, the cohort of the 1940's required re-leveling to account for statistical noise associated with data responses from that cohort. The final cohort considered was the 2000-2009 cohort as anyone born after this date would be out of the adjusted range for this analysis.
 
 # Results
 
@@ -59,9 +45,10 @@ The final consideration concerned building birth cohorts. Each cohort was create
 It is best to begin looking at the distribution of educational attainment of respondents.
 
 ```{r}
-#| label: fig-Educational_Attainment
-#| fig-cap: Level of educational attainment among respondents. 
-ggplot(data=subset(gss, !is.na(edattain)), aes(x=edattain, y=after_stat(prop), group=1))+
+#| Label: fig-Educational_Attainment
+#| fig-cap: Level of Educational Attainment Among Respondents. 
+gss |>
+  ggplot(aes(x=educ_attain, y=after_stat(prop), group=1))+
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
   labs(x="Education Level Attained", y=NULL, 
@@ -69,30 +56,144 @@ ggplot(data=subset(gss, !is.na(edattain)), aes(x=edattain, y=after_stat(prop), g
   theme_bw()
 ```
 
-As shown in @fig-Educational_Attainment of the respondents who identified their level of educational attainment, almost thirty percent of respondents indicated achieving a high school degree. Almost twenty-five percent of respondents indicated achieving some college whether it be an associates degree or trade skill. Just over twenty percent of respondents indicated earning less than a high school diploma while those earning a bachelors and graduate degree comprised about fourteen percent and eleven percent respectively. Next, it is helpful to look at educational attainment across sex.  
+As shown in @fig-Educational_Attainment 
 
 ```{r}
-#| label: fig-Educational_Attainment_by_Sex
-#| fig-cap: Level of educational attainment  of respondents by sex.
-gss |> filter(!is.na(edattain), !is.na(ssex)) |>
-  ggplot(aes(x=edattain, y=after_stat(prop), group=1))+
-  geom_bar()+
-  facet_wrap(~ssex)+
-  scale_y_continuous(labels = scales::percent)+
+#| label: fig-Educational_Attainment_by_Race
+#| fig-cap: Level of Educational Attainment of Respondents by Racial Identification.
+gss |>  
+  ggplot(aes(x=educ_attain, y=after_stat(prop), group=race, fill=race))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black" ))+
   labs(x=NULL, y=NULL, 
-       title="Education Level by Sex")+
+       title="Education Level by Racial Identification")+
   coord_flip()+
   theme_bw()
 ```
 
-As shown in @fig-Educational_Attainment_by_Sex females and males earning less than a high school degree comprised about the same proportion. Of interest, female respondents earned more high school and associates degrees than males. The difference is more pronounced in high school degrees than associates degrees with just over thirty percent of females earning high school degrees and just over twenty-five percent of males earning a high school degree. However, males respondents earned more bachelors and graduate degrees than females. All degree measures are measures of highest degree attained.   
+As shown in @fig-Educational_Attainment_by_Race 
+
+```{r}
+#| label: fig-Education_by_Religious_Affiliation
+#| fig-cap: Level of Educational Attainment  of Respondents by Religious Affiliation.
+gss |>  
+  ggplot(aes(x=educ_attain, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
+  labs(x=NULL, y=NULL, 
+       title="Education Level by Religious Affiliation")+
+  coord_flip()+
+  theme_bw()
+```
+
+As shown in @fig-Education_by_Religious_Affiliation
+
+```{r}
+#| Label: fig-Religiousity_by_Education_and_Race
+#| fig-cap: Religiousity by Repsondents Education Level and Race
+gss |>
+  group_by(race, educ_attain) |>
+  summarize(religiosity=mean(religiosity)) |>
+  ungroup() |>
+  ggplot(aes(x=race, y=religiosity, fill=educ_attain))+
+  geom_col(position="dodge")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Education and Race")+
+  theme_bw()
+```
+
+As shown in @fig-Religiosity_by_Education_and_Race 
+
+
+
+
+
+
+# Potential Issues in Measuring Religiosity
+
+
+
+
+
+
+# Religisoity as Measured Across Sex
+
+
+```{r}
+#| Label: fig-Religiousity_by_Sex
+#| fig-cap: Religiousity by Repsondents Sex
+gss |>
+  group_by(resp_sex) |>
+  summarize(religiosity=mean(religiosity)) |>
+  ungroup() |>
+  ggplot(aes(x=resp_sex, y=religiosity, fill=resp_sex))+
+  geom_col(position="dodge")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Sex")+
+  theme_bw()
+```
+
+As shown in @fig-REligiosity_by_Sex
+
+
+```{r}
+#| Label: fig-Religiousity_by_Sex_and_Race
+#| fig-cap: Religiousity by Repsondents Sex and Race
+gss |>
+  group_by(race, resp_sex) |>
+  summarize(religiosity=mean(religiosity)) |>
+  ungroup() |>
+  ggplot(aes(x=race, y=religiosity, fill=resp_sex))+
+  geom_col(position="dodge")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Sex and Race")+
+  theme_bw()
+```
+
+As shown in @fig-Religiosity_by_Sex_and_Race
+
+
+```{r}
+#| Label: fig-Religiousity_by_Education_and_Respondents_Sex
+#| fig-cap: Religiousity by Repsondents Education Level and Sex
+gss |>
+  group_by(educ_attain, resp_sex) |>
+  summarize(religiosity=mean(religiosity)) |>
+  ungroup() |>
+  ggplot(aes(x=educ_attain, y=religiosity, fill=resp_sex))+
+  geom_col(position="dodge")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Sex and Educational Level")+
+  theme_bw()
+```
+
+As seen in @fig-Religiosity_by_Education_and_Respondents_Sex
+
+
+
+
+
+
 # Religious Attendance
-Religious attendance may highlight differences in religious practices between males and females as well. 
+Religious attendance  
 
 ```{r}
 #| label: fig-Religious_Attendance
 #| fig-cap: Religious attendance of respondents. 
-ggplot(data=subset(gss, !is.na(religattend)), aes(x=religattend, y=after_stat(prop), group=1))+
+gss |>
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=1))+
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
   labs(x="Religious Attendance", y=NULL, 
@@ -100,68 +201,147 @@ ggplot(data=subset(gss, !is.na(religattend)), aes(x=religattend, y=after_stat(pr
   theme_bw()
 ```
 
-As shown in @fig-Religious_Attendance almost thirty-four percent of respondents indicated they attended religious services at least once a week, making this the largest category. Next followed those respondents attending service yearly at about twenty-one percent and those respondents indicating attending once a month or never comprised about nineteen percent of the sample population. The smallest group were those attending service more than once a week. Next, it will be helpful to look at religious attendance across sex.
+As shown in @fig-Religious_Attendance 
+
+
+
+
 
 ```{r}
 #| label: fig-Religious_Attendance_by_Sex
-#| fig-cap: Religious attendance of respondents by sex.
-gss |> filter(!is.na(religattend), !is.na(ssex)) |>
-  ggplot(aes(x=religattend, y=after_stat(prop), group=1))+
-  geom_bar()+
-  facet_wrap(~ssex)+
-  scale_y_continuous(labels = scales::percent)+
+#| fig-cap: Religious Attendance of Respondents by Sex.
+gss |>  
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=resp_sex, fill=resp_sex))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
   labs(x=NULL, y=NULL, 
        title="Religious Attendance by Sex")+
   coord_flip()+
   theme_bw()
 ```
 
-As shown in @fig-Religious_Attendance_by_Sex on average, more females attended religious service on a weekly or more than weekly basis than males. About thirty-two percent of female respondents indicated attending religious services weekly compared to about twenty-seven percent of male respondents indicating the same attendance. Additionally, about eight percent of female respondents indicated attending services more than weekly compared to about five percent of male respondents indicating the same attendance.  
+As seen in @fig-REligious_Attendance_by_Sex
+ 
 
-# Religiosity by Birth Cohorts
-This section begins to look at the measure of religiosity by birth cohorts. 
 
 ```{r}
-#| label: fig-Religiosity_by_Birth_Cohort
-#| fig-cap: Religiosity of respondents by birth cohort.
-gss |>
-  group_by(year, bcohort10) |>
-  summarize(m_religiosity=mean(religiosity, na.rm=TRUE)) |>
-  ggplot(aes(x=year, y=m_religiosity, group=bcohort10, color=bcohort10))+
-  geom_point()+
-  geom_smooth(se=FALSE)
+#| label: fig-Religious_Attendance_by_Religious_Affiliation
+#| fig-cap: Religious Attendance by Religious Affiliation
+gss |>  
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
+  labs(x=NULL, y=NULL, 
+       title="Religious Attendance by Religious Affiliation")+
+  coord_flip()+
+  theme_bw()
 ```
 
-As seen in @fig-Religiosity_by_Birth_Cohort there are mixed results from 1990 through about 2010. Some cohorts see a dramatic drop in religiosity scores while others see a steady and more gradual increase. However, after 2010, there seems to be a clear pattern of decrease in religiosity across cohorts. The best way to look at the potential influence of education on religiosity will be through modeling.   
+As shown in @fig-Religious_Attendance_by_Religious_Affiliation
+
+
+
+
 
 ```{r}
-#| label: Modeling Religiosity by Cohort
-gss$bcohort10 <- relevel(gss$bcohort10, "1940-1949")
-model1<-glm(religiosity~bcohort10+age+I(age^2), data=gss)
-model2<-glm(religiosity~bcohort10+edattain+age+I(age^2), data=gss)
-model3<-glm(religiosity~bcohort10+edattain+ssex+age+I(age^2), data=gss)
-model4<-update(model3,.~.+bcohort10*ssex)
+#| label: fig-Religious_Attendance_by_Respondents_Sex_and_Religious_Affilation
+#| fig-cap: Religious Attendence by Respondents Sex and Religious Affiliation
+gss |>  
+  ggplot(aes(x=relig_attend, y=after_stat(prop), group=resp_sex, fill=resp_sex))+
+  geom_bar(position="dodge")+
+  facet_wrap(~relig_affil)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
+  coord_flip()+
+  theme_bw()
+```
+
+As seen in @fig-Religious_Attendance_by_Respondents_Sex_and_Religious_Affiliation
+
+
+
+# Measuring Belief in God 
+
+
+
+```{r}
+#| Label: fig-Belief_in_God
+#| fig-cap: Belief in God Among Respondents. 
+gss |>
+  ggplot(aes(x=believe_god, y=after_stat(prop), group=1))+
+  geom_bar()+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x="Belief in God", y=NULL, 
+       title="Distribution of Belief in God")+
+  theme_bw()
+```
+
+As seen in @fig-Belief_in_God 
+
+
+```{r}
+#| label: fig-Belief_in_God_by_Race
+#| fig-cap: Belief in God of Respondents by Racial Identification.
+gss |>  
+  ggplot(aes(x=believe_god, y=after_stat(prop), group=race, fill=race))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black" ))+
+  labs(x=NULL, y=NULL, 
+       title="Belief in God by Racial Identification")+
+  coord_flip()+
+  theme_bw()
+
+```
+
+As seen in @fig-Belief_in_God_by_Race
+
+
+
+```{r}
+#| label: fig-Beleif_in_God_by_Religious_Affiliation
+#| fig-cap: Belief in God of Respondents by Religious Afiliation.
+gss |>  
+  ggplot(aes(x=believe_god, y=after_stat(prop), group=relig_affil, fill=relig_affil))+
+  geom_bar(position="dodge")+
+  #facet_wrap(~race)+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
+  labs(x=NULL, y=NULL, 
+       title="Belief in god by Religious Affiliation")+
+  coord_flip()+
+  theme_bw()
+```
+
+As seen in @fig-Belief_in_God-by_Religious_Affiliation
+
+
+
+
+# Religiosity Models
+  
+
+```{r}
+#| Label: Modeling Religiosity 
+model1 <- glm(religiosity~educ_attain*age+I(age^2), data=gss)
+model2 <- update(model1, .~.+educ_attain*race, data=gss)
+model3 <- update(model2, .~.+resp_sex*race, data=gss)
+model4 <- update(model3, .~.+relig_affil)
 ```
 
 ```{r}
 #| label: fig-Rendering_Models
-#| fig-cap: Models of religiosity by birth cohort with interaction terms.
+#| fig-cap: Models of religiosity by education and Race with interaction terms.
 #| results: asis
 #to print to screen replace texreg with screenreg
-texreg(list(model1, model2, model3, model4),
-        custom.coef.names = c("Intercept", "1880-1899", "1900-1909",
-                              "1910-1919", "1920-1929", "1930-1939",
-                              "1950-1959", "1960-1969",
-                              "1970-1979", "1980-189", "1990-1999",
-                              "2000-2009", "Age", "Age Squared",
-                              "High School", "Some College", "Bachelors",
-                              "Graduate", "Female", "Female 1880-1899",
-                              "Female 1900-1909", "Female 1910-1919",
-                              "Female 1920-1929", "Female 1930-1939",
-                              "Female 1950-1959",
-                              "Female 1960-1969", "Female 1970-1979",
-                              "Female 1980-1989", "Female 1990-1999",
-                              "Female 2000-2009"),
+screenreg(list(model1, model2, model3, model4),
+        #custom.coef.names = c("high school", "some college", "bachelors", "graduate",
+                             # "black", "latinX", "asian", "asian/pi", "HS*black", ""),
        digits = 3,
        caption.above=TRUE, 
        include.rsquared=TRUE,
@@ -169,16 +349,37 @@ texreg(list(model1, model2, model3, model4),
        include.nobs=TRUE,
        include.rmse=FALSE)
 ```
-As seen in @fig-Rendering_Models a pattern emerges. Model one considers religiosity of birth cohorts considering the effects of age. Of interest in model one is the shift in effect after the 1950 cohort. From 1900 to 1950, holding cohorts constant, a one year increase in age is associated with a varying, but positive increase in religiosity. Among the 1950 cohort, a year increase in age is associated with a 0.048 point decrease in religiosity. This trend continues and increases with each cohort after 1950. Model 2 considers the addition of educational attainment. When controlling for the effects of cohorts and age, the effect of a high school degree is associated with a 0.042 point decrease in religiosity compared to those with less than a high school degree, on average. This effect is larger for those with some college as it is associated with a 0.070 point decrease in religiosity compared to those with less than a high school diploma, on average.
 
-Model three considers the addition of sex as a variable. A similar pattern emerges in model three with some interesting differences. First, when controlling for cohort, age, and sex,the negative association between education and religiosity increases. Second, when controlling for cohort, age, and education, females tend to experience less of a religiosity measure decrease than males by .393 points, on average. This indicates females religiosity is less negatively associated with increases in education than males. Though it should be noted there is still a drop in the religiosity score. This also makes sense considering the distributions of education and religious attendance. Females comprised the majority of those earning a high school and some college degrees and the majority of those attending religious services once a week or more, on average.
+As seen in @fig-Rendering_Models 
 
-The final model considers the additional effects on religiosity over time and across genders. Holding all other variables constant, the model finds a general negative association between level of education and religiosity, on average. It also finds females are likely to decrease in religiosity less than males as educational attainment increases by 0.420 points. The youngest cohort, 2000-2009, saw the most statistically significant difference. Among the 2000-2009 birth cohort, females saw a 0.445 point decrease in religiosity as educational attainment increased compared to males, on average. 
+```{r}
+#| Label: Modeling Religiosity Continued
+model5 <- glm(religiosity~resp_sex*race+educ_attain*race, data=gss)
+model6 <- update(model5, .~.+resp_age+as.factor(year))
+model7 <- update(model6, .~.+relig_affil)
+model8 <- update(model7,.~.+relig_affil*resp_sex)
+```
+
+```{r}
+#| label: fig-Rendering_Models_Continued
+#| fig-cap: Models of Religiosity by Education, Race, and Sex with interaction terms.
+#| results: asis
+#to print to screen replace texreg with screenreg
+screenreg(list(model5, model6, model7, model8),
+        #custom.coef.names = c("high school", "some college", "bachelors", "graduate",
+                             # "black", "latinX", "asian", "asian/pi", "HS*black", ""),
+       digits = 3,
+       caption.above=TRUE, 
+       include.rsquared=TRUE,
+       include.adjrs=FALSE,
+       include.nobs=TRUE,
+       include.rmse=FALSE)
+```
+
+As seen in @fig-Rendering_Models_Continued
+
+
 
 # Conclusions
-Of the respondents who participated in the GSS, the most common educational degrees attained are high school and some college. A little more than thirty percent of female respondents earned a high school degree making females the largest group. Females were also found to earn more associates degrees or trade skills in college. However, more male respondents reported earning a bachelor and graduate degrees than females. When considering religious attendance, female respondents indicated they attended religious service on a weekly or more than weekly period more often than males. Female respondents were also found to experience less of a religiosity decrease as a result of educational attainment than males. This makes sense considering female respondents make up the largest proportion of those earning high school and some college degrees, which is also the highest two categories of educational attainment among respondents, and they comprise the largest proportion of respondents attending religious service on a weekly or more than weekly basis.
-
-This analysis has shown a negative association between education and religiosity for birth cohorts from 1950 through 2010. There is difference in the rate of decrease in religiosity across sex that may result from the increased proportion of females earning the largest proportion high school and associates degrees (the largest category of degree attained) and comprising the largest proportion of those attending religious service weekly or more than weekly. Perhaps the participation in the religious services reduces the rate at which religiosity among females decreases as educational attainment increases. However, this only looks at part of the story.
-
-What other societal factors influence a person's religiosity score? How does family structure (the religious devotion and practice of parents), socioeconomic status, religious affiliation (does religiosity and education differ across religious institutions?), and race influence religiosity? This analysis looked at the associations of religiosity and education and sex. Negative associations were found between religiosity and educational attainment and this finding differs across sex. Additional research should look at these additional societal factors to see how much impact they may have on the association between religiosity and education.  
+ 
 

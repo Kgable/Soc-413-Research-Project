@@ -308,6 +308,26 @@ ordered_factor(gss$educ_attain)
 contrasts(gss$educ_attain)
 ```
 
+This code too needs work.....
+
+```{r}
+#| Label: fig-Religiousity_by_Sex
+#| fig-cap: religiousity by Repsondents Sex
+gss |>
+  group_by(resp_sex) |>
+  summarize(religiosity=mean(religiosity)) |>
+  ungroup() |>
+  ggplot(aes(x=resp_sex, y=religiosity, fill=resp_sex))+
+  geom_col(position="dodge")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Sex")+
+  theme_bw()
+```
+
+This figure shows females to be significantly more religious than males. This is consistent with much of the literature. What intersections of each society produce this result?
+
 ```{r}
 #| Label: fig-Religiousity_by_sex_and_race
 #| fig-cap: religiousity by repsondents sex and race
