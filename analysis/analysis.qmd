@@ -277,12 +277,25 @@ gss |>
 Looking at religiosity by race and education seems to show distinct differences. Among black respondents, higher education levels are associated with higher religiosity scores. Among white respondents, higher education levels seem to be associated with lower religiosity scores with the exception of high school graduates. LatniX group is interestingly divided. What cultural reasons would cause this?
 
 ```{r}
-#| label: 3-way Table of Religiosity by education and race
-#| fig-cap: Religiosity_table_by_education_and_race
-round(prop.table(table(gss$relig_affil, gss$educ_attain, gss$race),2),3)*100
+#| label: Barplot of 
+#| fig-cap: Education_Across_Religious_Affiliation_and_Race
+ggplot(gss, aes(x=relig_affil, y=after_stat(prop), fill=educ_attain, group=educ_attain))+
+  geom_bar(position = "dodge")+
+  facet_wrap(~race)+
+  coord_flip()+
+    labs(x="Relgious Affiliation", y="Proportion of Respondents", 
+       title="Educational Attainment by Religious Affiliation and Race")+
+  theme_bw()
 ```
 
-Results for table not correct. Needs code fix.
+
+```{r}
+#| label: 3-way Table of Religiosity by education and race
+#| fig-cap: Religiosity_table_by_education_and_race
+round(prop.table(table(gss$relig_affil, gss$educ_attain, gss$race),c(2,3)),3)*100
+```
+
+Results for table
 
 ```{r}
 #| label: Stair-step approach for previous table
@@ -304,11 +317,11 @@ ordered_factor <- function(fact_var) {
 ```{r}
 #| label: Stair-step approach for previous table
 #| fig-cap: Religiosity_stair_step_table_by_education_and_race
-ordered_factor(gss$educ_attain)
+gss$educ_attain <- ordered_factor(gss$educ_attain)
 contrasts(gss$educ_attain)
 ```
 
-This code too needs work.....
+
 
 ```{r}
 #| Label: fig-Religiousity_by_Sex
@@ -377,7 +390,7 @@ model4 <- update(model3,.~.+relig_affil*resp_sex)
 #| fig-cap: Models of religiosity with interaction terms.
 #| results: asis
 #to print to screen replace texreg with screenreg
-htmlreg(list(model1, model2, model3, model4),
+screenreg(list(model1, model2, model3, model4),
         #custom.coef.names = c(""),
        digits = 3,
        caption.above=TRUE, 

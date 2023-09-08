@@ -36,10 +36,15 @@ load(here("data","data_constructed","analytical_data.RData"))
   
 # Background
 
+
 # Data and Methods
 
 
+# Limitations
+
+
 # Results
+
 
 # Levels of Educational Attainment
 It is best to begin looking at the distribution of educational attainment of respondents.
@@ -52,7 +57,7 @@ gss |>
   geom_bar()+
   scale_y_continuous(labels=scales::percent)+
   labs(x="Education Level Attained", y=NULL, 
-       title="Distribution of Education Level")+
+       title="Educational Attainment Among Respondents")+
   theme_bw()
 ```
 
@@ -67,6 +72,7 @@ gss |>
   #facet_wrap(~race)+
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black" ))+
+  scale_y_continuous(labels=scales::percent)+
   labs(x=NULL, y=NULL, 
        title="Education Level by Racial Identification")+
   coord_flip()+
@@ -84,6 +90,7 @@ gss |>
   #facet_wrap(~race)+
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
+  scale_y_continuous(labels=scales::percent)+
   labs(x=NULL, y=NULL, 
        title="Education Level by Religious Affiliation")+
   coord_flip()+
@@ -91,6 +98,23 @@ gss |>
 ```
 
 As shown in @fig-Education_by_Religious_Affiliation
+
+
+```{r}
+#| label: Educational Attainment Across Religious Affiliation and Race
+#| fig-cap: Education_Across_Religious_Affiliation_and_Race
+ggplot(gss, aes(x=relig_affil, y=after_stat(prop), fill=educ_attain, group=educ_attain))+
+  geom_bar(position = "dodge")+
+  facet_wrap(~race)+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x=NULL, y=NULL, 
+       title="Educational Attainment by Religious Affiliation and Race")+
+  coord_flip()+
+  theme_bw()
+```
+
+As seen in @fig-Education_Across_Religious_Affiliation_and_Race
+
 
 ```{r}
 #| Label: fig-Religiousity_by_Education_and_Race
@@ -103,12 +127,20 @@ gss |>
   geom_col(position="dodge")+
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple"))+
+  scale_y_continuous(labels=scales::percent)+
   labs(x=NULL, y=NULL, 
-       title="Religiosity by Education and Race")+
+       title="Religiosity by Educational Attainment and Race")+
   theme_bw()
 ```
 
 As shown in @fig-Religiosity_by_Education_and_Race 
+
+
+```{r}
+#| label: 3-way Table of Religiosity by education and race
+#| fig-cap: Religiosity_table_by_education_and_race
+round(prop.table(table(gss$relig_affil, gss$educ_attain, gss$race),c(2,3)),3)*100
+```
 
 
 
@@ -118,112 +150,8 @@ As shown in @fig-Religiosity_by_Education_and_Race
 # Potential Issues in Measuring Religiosity
 
 
-
-
-
-
-# Religisoity as Measured Across Sex
-
-
-```{r}
-#| Label: fig-Religiousity_by_Sex
-#| fig-cap: Religiousity by Repsondents Sex
-gss |>
-  group_by(resp_sex) |>
-  summarize(religiosity=mean(religiosity)) |>
-  ungroup() |>
-  ggplot(aes(x=resp_sex, y=religiosity, fill=resp_sex))+
-  geom_col(position="dodge")+
-  #scale_fill_viridis_d()+
-  scale_fill_manual(values=c("#154733","#FEE123"))+
-  labs(x=NULL, y=NULL, 
-       title="Religiosity by Sex")+
-  theme_bw()
-```
-
-As shown in @fig-REligiosity_by_Sex
-
-
-```{r}
-#| Label: fig-Religiousity_by_Sex_and_Race
-#| fig-cap: Religiousity by Repsondents Sex and Race
-gss |>
-  group_by(race, resp_sex) |>
-  summarize(religiosity=mean(religiosity)) |>
-  ungroup() |>
-  ggplot(aes(x=race, y=religiosity, fill=resp_sex))+
-  geom_col(position="dodge")+
-  #scale_fill_viridis_d()+
-  scale_fill_manual(values=c("#154733","#FEE123"))+
-  labs(x=NULL, y=NULL, 
-       title="Religiosity by Sex and Race")+
-  theme_bw()
-```
-
-As shown in @fig-Religiosity_by_Sex_and_Race
-
-
-```{r}
-#| Label: fig-Religiousity_by_Education_and_Respondents_Sex
-#| fig-cap: Religiousity by Repsondents Education Level and Sex
-gss |>
-  group_by(educ_attain, resp_sex) |>
-  summarize(religiosity=mean(religiosity)) |>
-  ungroup() |>
-  ggplot(aes(x=educ_attain, y=religiosity, fill=resp_sex))+
-  geom_col(position="dodge")+
-  #scale_fill_viridis_d()+
-  scale_fill_manual(values=c("#154733","#FEE123"))+
-  labs(x=NULL, y=NULL, 
-       title="Religiosity by Sex and Educational Level")+
-  theme_bw()
-```
-
-As seen in @fig-Religiosity_by_Education_and_Respondents_Sex
-
-
-
-
-
-
 # Religious Attendance
-Religious attendance  
 
-```{r}
-#| label: fig-Religious_Attendance
-#| fig-cap: Religious attendance of respondents. 
-gss |>
-  ggplot(aes(x=relig_attend, y=after_stat(prop), group=1))+
-  geom_bar()+
-  scale_y_continuous(labels=scales::percent)+
-  labs(x="Religious Attendance", y=NULL, 
-       title="Distribution of Religious Attendance")+
-  theme_bw()
-```
-
-As shown in @fig-Religious_Attendance 
-
-
-
-
-
-```{r}
-#| label: fig-Religious_Attendance_by_Sex
-#| fig-cap: Religious Attendance of Respondents by Sex.
-gss |>  
-  ggplot(aes(x=relig_attend, y=after_stat(prop), group=resp_sex, fill=resp_sex))+
-  geom_bar(position="dodge")+
-  #facet_wrap(~race)+
-  #scale_fill_viridis_d()+
-  scale_fill_manual(values=c("#154733","#FEE123"))+
-  labs(x=NULL, y=NULL, 
-       title="Religious Attendance by Sex")+
-  coord_flip()+
-  theme_bw()
-```
-
-As seen in @fig-REligious_Attendance_by_Sex
- 
 
 
 ```{r}
@@ -235,13 +163,13 @@ gss |>
   #facet_wrap(~race)+
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
+  scale_y_continuous(labels=scales::percent)+
   labs(x=NULL, y=NULL, 
        title="Religious Attendance by Religious Affiliation")+
   coord_flip()+
   theme_bw()
 ```
 
-As shown in @fig-Religious_Attendance_by_Religious_Affiliation
 
 
 
@@ -256,50 +184,16 @@ gss |>
   facet_wrap(~relig_affil)+
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123"))+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x=NULL, y=NULL, 
+       title="Religious Attendance by Religious Affiliation and Respondent's Sex")+
   coord_flip()+
   theme_bw()
 ```
-
-As seen in @fig-Religious_Attendance_by_Respondents_Sex_and_Religious_Affiliation
 
 
 
 # Measuring Belief in God 
-
-
-
-```{r}
-#| Label: fig-Belief_in_God
-#| fig-cap: Belief in God Among Respondents. 
-gss |>
-  ggplot(aes(x=believe_god, y=after_stat(prop), group=1))+
-  geom_bar()+
-  scale_y_continuous(labels=scales::percent)+
-  labs(x="Belief in God", y=NULL, 
-       title="Distribution of Belief in God")+
-  theme_bw()
-```
-
-As seen in @fig-Belief_in_God 
-
-
-```{r}
-#| label: fig-Belief_in_God_by_Race
-#| fig-cap: Belief in God of Respondents by Racial Identification.
-gss |>  
-  ggplot(aes(x=believe_god, y=after_stat(prop), group=race, fill=race))+
-  geom_bar(position="dodge")+
-  #facet_wrap(~race)+
-  #scale_fill_viridis_d()+
-  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black" ))+
-  labs(x=NULL, y=NULL, 
-       title="Belief in God by Racial Identification")+
-  coord_flip()+
-  theme_bw()
-
-```
-
-As seen in @fig-Belief_in_God_by_Race
 
 
 
@@ -312,6 +206,7 @@ gss |>
   #facet_wrap(~race)+
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple" ))+
+  scale_y_continuous(labels=scales::percent)+
   labs(x=NULL, y=NULL, 
        title="Belief in god by Religious Affiliation")+
   coord_flip()+
@@ -325,7 +220,30 @@ As seen in @fig-Belief_in_God-by_Religious_Affiliation
 
 # Religiosity Models
   
+```{r}
+#| label: Stair-step approach for models
+ordered_factor <- function(fact_var) {
+  ord_fact <- factor(fact_var, ordered=TRUE)
+  categories <- levels(fact_var)
+  n_cat <- length(categories)
+  cont <- matrix(0, n_cat, n_cat-1)
+  cont[col(cont)<row(cont)] <- 1
+  rownames(cont) <- categories
+  colnames(cont) <- paste(categories[2:n_cat], categories[1:(n_cat-1)],
+                          sep=" vs. ")
+  contrasts(ord_fact) <- cont
+  return(ord_fact)
+}
 
+```
+
+```{r}
+#| label: Stair-step approach for previous table
+#| fig-cap: Religiosity_stair_step_table_by_education_and_race
+gss$educ_attain <- ordered_factor(gss$educ_attain)
+contrasts(gss$educ_attain)
+```
+  
 ```{r}
 #| Label: Modeling Religiosity 
 model1 <- glm(religiosity~educ_attain*age+I(age^2), data=gss)
@@ -340,8 +258,16 @@ model4 <- update(model3, .~.+relig_affil)
 #| results: asis
 #to print to screen replace texreg with screenreg
 screenreg(list(model1, model2, model3, model4),
-        #custom.coef.names = c("high school", "some college", "bachelors", "graduate",
-                             # "black", "latinX", "asian", "asian/pi", "HS*black", ""),
+        custom.coef.names = c("Intercept", "high school vs less than high school", "some college vs high school",
+        "bachelors vs some college", "graduate vs bachelors", "age", "age squared", "high school vs less than high school controlling age",
+        "some college vs high school controlling age", "bachelors vs some college controlling age", "graduate vs bachelors controlling age",
+        "black", "latinX", "asian", "asian/pi", "high school vs less than high school among Black", "some college vs high school among Black",
+        "bachelors vs some college among Black", "graduate vs bachelors among Black", "high school vs less than high school among LatinX",
+        "some college vs high school among LatinX", "bachelors vs some college among LatinX", "graduate vs bachelors among LatinX",
+        "high school vs less than high school among Asian", "some college vs high school among Asian", "bachelors vs some college among Asian",
+        "graduate vs bachelors among Asian", "high school vs less than high school among Asian/PI", "some college vs high school among Asian/PI",
+        "bachelors vs some college among Asian/PI", "graduate vs bachelors among Asian/PI", "male", "Black Male", "LatinX Male",
+        "Asian Male", "Asian/PI Male", "Catholic", "Other Christian", "Jewish", "Muslim", "Buddhist", "Hindu", "Other", "None"),
        digits = 3,
        caption.above=TRUE, 
        include.rsquared=TRUE,
