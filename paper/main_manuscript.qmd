@@ -181,7 +181,7 @@ gss |>
   theme_bw()
 ```
 
-Trends begin to emerge when examining religiosity across educational attainment and racial identification. As shown in @fig-Religiosity_by_Education_and_Race there are clear differences in religiosity across both factors. This seems to support hypothesis two. Among the White racial group, religiosity appears to decrease as educational attainment increases. A similar pattern seems to emerge for the Asian racial category. The LatinX racial group seems is of interest because it appears religiosity in that group may not be influenced by the intersection of educational attainment and racial identification as much as the other groups. The Black racial category appears to have the opposite relation than that of Whites and Asians. As educational attainment increases religiosity also increases. This is an interesting results. To better understand some of the trend among Black respondents in this context @table-Table_of_Religiosity_by_Education_and_Race it appears the trend may be driven by those not affiliated with a religious group become more religious as they attain education, on average. Graphs and tables help to understand some trends. However, in this context, they are more helpful in defining the questions related to the hypothesis presented. To better understand, models are needed.  
+Trends begin to emerge when examining religiosity across educational attainment and racial identification. As shown in @fig-Religiosity_by_Education_and_Race there are clear differences in religiosity across both factors. This seems to support hypothesis two. Among the White racial group, religiosity appears to decrease as educational attainment increases. A similar pattern seems to emerge for the Asian racial category. The LatinX racial group seems is of interest because it appears religiosity in that group may not be influenced by the intersection of educational attainment and racial identification as much as the other groups. The Black racial category appears to have the opposite relation than that of Whites and Asians. As educational attainment increases religiosity also increases. This is an interesting results. To better understand some of the trend among Black respondents in this context Table_of_Religiosity_by_Education_and_Race it appears the trend may be driven by those not affiliated with a religious group become more religious as they attain education, on average. Graphs and tables help to understand some trends. However, in this context, they are more helpful in defining the questions related to the hypothesis presented. To better understand, models are needed.  
 
 
 ```{r}
@@ -229,7 +229,7 @@ model4 <- update(model3, .~.+relig_affil)
 #| fig-cap: Models of religiosity by education and Race with interaction terms.
 #| results: asis
 #to print to screen replace texreg with screenreg
-screenreg(list(model1, model2, model3, model4),
+texreg(list(model1, model2, model3, model4),
         custom.coef.names = c("Intercept", "high school vs less than high school", "some college vs high school",
         "bachelors vs some college", "graduate vs bachelors", "age", "age squared", "high school vs less than high school controlling age",
         "some college vs high school controlling age", "bachelors vs some college controlling age", "graduate vs bachelors controlling age",
@@ -258,14 +258,3 @@ Model four looks at the heart of hypothesis three. Differences in religiosity ac
  Hypothesis one was not supported by the modeling outcomes. There was no clear decreasing trend in religiosity as educational attainment increased. In many instances, religiosity seemed to increase as educational attainment increased. Hypothesis two and three were supported by the modeling outcomes as they showed clear differences in religiosity across educational outcomes when controlling for racial categories. Black respondents showed increased religiosity as educational attainment increased compared to Whites, on average. There were differences in religiosity scores when controlling for religious affiliation as well. Other Christian and Muslim religious affiliations showed a positive association between religiosity and educational attainment, while controlling for racial identification, on average. This support hypothesis three. This indicates the potential influence intersectionality has on religiosity.
  
 The social meaning of religious/spiritual beliefs and practices is on the move through groups and over time. This is because of the cognitive and environmental motivations involved in integrating these beliefs and practices into an individual and collective human structure. These groups approach the three categories of he pragmatist view of meaning, "What matter?", "What are you going to do about it?", and "Why?" [@Norton2018] not just as a respondent, but as male or female of a particular racial category, attaining a specific level of education, belonging to a certain religion. These intersections provide the social environmental motivation. The differences in religiosity scores observed across education and racial identification, while controlling for religious affiliations, show the process of the social meaning of religious/spiritual practices evolving and changing as it moves across groups and time. This is important to note because this process happens with every social construct made. Understanding why and how these meanings change gives insight into how needed changes can occur. This may provide insight into how changes in the social meaning of race and gender may occur. 
-
-
- 
- 
- 
- 
- 
- 
- 
- 
-
