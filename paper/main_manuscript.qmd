@@ -65,7 +65,6 @@ There are several limitations to consider in this research. First, correlation i
 # Potential Issues in Measuring Religiosity
 There are two specific areas of interest when identifying the limitations of this study; religious attendance and the belief in God of each respondent. This must be aknowleged because these are two of the four categories used to construct the religiosity measure. More so, they are ordinal variables and therefore have a value rating in a specific order. There is no set specific measure of religiosity. However, the four selected for this research are four of the most commonly used categories.  
 
-# Religious Attendance
 Measuring religious attendance was done by asking respondents how often they attended religious service. The given options to respond were; never, yearly, monthly, weekly, and more than weekly. This means a respondent attending service at a weekly rate will score higher in the service attendance category than a respondent who indicates they attend monthly. This works fine as long as each religion and each intersection is measured equaly. However, each religion and each culture has slight differences in practices and beliefs.
 
 ```{r}
@@ -84,10 +83,7 @@ gss |>
   theme_bw()
 ```
 
-As seen in @fig-Religious_Attendance_by_Religious_Affiliation there are two categories highly represented as never attending service; "other", and "Buddhist". This can be problematic as service requirements and structure may not be the same for these two groups as they are for the other represented affiliations. Because this is an ordinal variable contributing it's score to the overall religiosity measure, these two groups may be systematically under-considered.  
-
-
-
+As seen in @fig-Religious_Attendance_by_Religious_Affiliation there are two categories highly represented as never attending service; "other", and "Buddhist". This can be problematic as service requirements and structure may not be the same for these two groups as they are for the other represented affiliations. Because this is an ordinal variable contributing it's score to the overall religiosity measure, these two groups may be systematically under-considered. The "other" category includes indigenous and other eastern religions. It could be problematic to value their service attendance rating in this manner. If a religion does not have within it's structure a need to go to a specific service at a specific time, it potentially underscores the actual religiosity of those in that group. It also prioritizes the Christian religious format because service attendance is, on average, a large part of that religious practice. This is not the only potential issue with using religious attendance as a variable to create a measure of religiosity. There are differences across gender as well.
 
 ```{r}
 #| label: fig-Religious_Attendance_by_Respondents_Sex_and_Religious_Affilation
@@ -105,9 +101,9 @@ gss |>
   theme_bw()
 ```
 
+As shown in @fig-Religious_Attendance_by_Respondents_Sex_and_Religious_Affilation it is seen men and women do not all have the same service attendance habits across religions. For example, within the Muslim faith it can be seen men attend service more often than women. This is most noticeable in the "weekly" category for attendance. Within this category, men are over represented compared to women. There are likely cultural explanations for this difference in service attendance. This difference in attendance needs to be considered when using attendance as a composite in the religiosity variable. Additionally, The Buddhist faith seems to show a similar pattern. Women are over represented in the "never" category while men are the majority in each other category. Again, there is likely a systematic misrepresentation of attendance based on gender factors. 
 
-# Measuring Belief in God 
-
+In the case of religious attendance used as a composite measure of religiosity there may be concern for misrepresentation in religious importance. Differences in attendance resulting from cultural structures or the service structure of particular religions do not necessarily mean one group is more or less religious than another. It simply means there are cultural or structural differences in how a religion is integrated into a particular society. This is not the only potential issue. Belief in god could also be considered in this way.
 
 ```{r}
 #| label: fig-Beleif_in_God_by_Religious_Affiliation
@@ -125,7 +121,9 @@ gss |>
   theme_bw()
 ```
 
+As shown in @fig-Beleif_in_God_by_Religious_Affiliation it is seen Buddhists are the majority representation in the belief in a higher power. However, this could be an issue because it implies a belief in a higher power is less religious than a belief in a god. This is an ordinal variable giving more value to the answers professing a belief in a specific god. as with service attendance, the "other" category must also be considered. It may be problematic to place indigenous beliefs below Christian because they do not incorporate the same or a single deity belief system. That, in and of itself, is not enough to classify them as less religious. 
 
+In each of these cases it is problematic to use the current, and most commonly used, measures of religiosity. They seem to prioritize Christian religious beliefs and practices. This may not give us a measure of religiosity usable across religious affiliations or gender. This project utilized 4 of the 5 most common variables used to create a measure of religiosity. If two variables potentially have issues with under or over representing certain groups due to cultural or religious structural reasons, the overall measure should contain a rather large margin of error preventing acurate predictions of associations.  
 
 # Results
 
