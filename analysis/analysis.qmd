@@ -378,6 +378,24 @@ gss |>
 In each category females are more religious than males. Of interest is those with graduate degrees. Females with graduate degrees have a trend in the same direction as males. Every other category there is a stark difference. Why?
 
 ```{r}
+#| Label: fig-Religiousity_by_Educational_Attainment
+#| fig-cap: Religiousity by Repsondents Educational Attainment
+gss |>
+  group_by(educ_attain) |>
+  summarize(religiosity=mean(religiosity)) |>
+  ungroup() |>
+  ggplot(aes(x=educ_attain, y=religiosity, fill=educ_attain))+
+  geom_col(position="dodge")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Educational Attainment")+
+  theme_bw()
+```
+
+
+
+```{r}
 #| Label: Modeling Religiosity 
 model1 <- glm(religiosity~resp_sex*race+educ_attain*race, data=gss)
 model2 <- update(model1, .~.+resp_age+as.factor(year))
