@@ -259,6 +259,24 @@ gss |>
 Here we see a distribution indicating females have the highest rate, on average, of belief with no doubt. Males score higher in every other category. 
 
 ```{r}
+#| label: fig-Religiosity_by_Race
+#| fig-cap: Religiosity by Racial Identification
+gss |>
+  group_by(race) |>
+  summarize(religiosity=mean(religiosity)) |>
+  ungroup() |>
+  ggplot(aes(x=race, y=religiosity, fill=race))+
+  geom_col(position="dodge")+
+  #scale_fill_viridis_d()+
+  scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black"))+
+  labs(x=NULL, y=NULL, 
+       title="Religiosity by Racial Identification")+
+  theme_bw()
+```
+
+This graph shows religiosity levels across racial categories. It suggests people in the asain category tends to be less religious, on average, compared to the other groups. It also suggest people in the black category tend to be significantly more religious, on average, compared to each other group. 
+
+```{r}
 #| Label: fig-Religiousity_by_education_and_race
 #| fig-cap: Religiousity by Repsondents Education Level and Race
 gss |>
