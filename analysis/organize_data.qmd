@@ -100,9 +100,9 @@ gss <- gss |>
       racecen1==1 ~ "white",
       racecen1==2 ~ "black",
       racecen1>=4 & racecen1<=10 ~ "asian",
-      racecen1==3 | (racecen1>=11 & racecen1<=14) ~ "aian/pi",
+      racecen1==3 | (racecen1>=11 & racecen1<=14) ~ "asian/pi",
       TRUE ~ NA_character_),
-    levels=c("white","black","latinx","asian","aian/pi")))
+    levels=c("white","black","latinx","asian","asian/pi")))
   
 table(gss$racecen1, gss$race, exclude=NULL)
 table(gss$racecen2, gss$race, exclude=NULL)
