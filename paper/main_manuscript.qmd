@@ -118,7 +118,6 @@ gss |>
   geom_col(position="dodge")+
   #scale_fill_viridis_d()+
   scale_fill_manual(values=c("#154733","#FEE123","red", "blue", "black", "orange", "grey", "pink", "purple"))+
-  scale_y_continuous(labels=scales::percent)+
   labs(x=NULL, y=NULL, 
        title="Religiosity by Educational Attainment and Race")+
   theme_bw()
@@ -142,14 +141,14 @@ ordered_factor <- function(fact_var) {
   contrasts(ord_fact) <- cont
   return(ord_fact)
 }
-
+gss$educ_attain <- ordered_factor(gss$educ_attain)
 ```
 
 ```{r}
 #| Label: Modeling Religiosity 
-model1 <- glm(religiosity~educ_attain*age+I(age^2), data=gss)
-model2 <- update(model1, .~.+educ_attain*race, data=gss)
-model3 <- update(model2, .~.+resp_sex*race, data=gss)
+model1 <- lm(religiosity~educ_attain, data=gss)
+model2 <- update(model1, .~.+race+age+I(age)^2+resp_sex, data=gss)
+model3 <- update(model2, .~.+educ_attain*race, data=gss)
 model4 <- update(model3, .~.+relig_affil, data=gss)
 ```
 
@@ -159,16 +158,16 @@ model4 <- update(model3, .~.+relig_affil, data=gss)
 #| results: asis
 #to print to screen replace texreg with screenreg
 screenreg(list(model1, model2, model3, model4),
-        custom.coef.names = c("Intercept", "high school vs less than high school", "some college vs high school",
-        "bachelors vs some college", "graduate vs bachelors", "age", "age squared", "high school vs less than high school controlling age",
-        "some college vs high school controlling age", "bachelors vs some college controlling age", "graduate vs bachelors controlling age",
-        "black", "latinX", "asian", "asian/pi", "high school vs less than high school among Black", "some college vs high school among Black",
-        "bachelors vs some college among Black", "graduate vs bachelors among Black", "high school vs less than high school among LatinX",
-        "some college vs high school among LatinX", "bachelors vs some college among LatinX", "graduate vs bachelors among LatinX",
-        "high school vs less than high school among Asian", "some college vs high school among Asian", "bachelors vs some college among Asian",
-        "graduate vs bachelors among Asian", "high school vs less than high school among Asian/PI", "some college vs high school among Asian/PI",
-        "bachelors vs some college among Asian/PI", "graduate vs bachelors among Asian/PI", "male", "Black Male", "LatinX Male",
-        "Asian Male", "Asian/PI Male", "Catholic", "Other Christian", "Jewish", "Muslim", "Buddhist", "Hindu", "Other", "None"),
+        #custom.coef.names = c("Intercept", "high school vs less than high school", "some college vs high school",
+        #"bachelors vs some college", "graduate vs bachelors", "age", "age squared", "high school vs less than high school controlling age",
+        #"some college vs high school controlling age", "bachelors vs some college controlling age", "graduate vs bachelors controlling age",
+        #"black", "latinX", "asian", "asian/pi", "high school vs less than high school among Black", "some college vs high school among Black",
+        #"bachelors vs some college among Black", "graduate vs bachelors among Black", "high school vs less than high school among LatinX",
+        #"some college vs high school among LatinX", "bachelors vs some college among LatinX", "graduate vs bachelors among LatinX",
+        #"high school vs less than high school among Asian", "some college vs high school among Asian", "bachelors vs some college among Asian",
+        #"graduate vs bachelors among Asian", "high school vs less than high school among Asian/PI", "some college vs high school among Asian/PI",
+        #"bachelors vs some college among Asian/PI", "graduate vs bachelors among Asian/PI", "male", "Black Male", "LatinX Male",
+        #"Asian Male", "Asian/PI Male", "Catholic", "Other Christian", "Jewish", "Muslim", "Buddhist", "Hindu", "Other", "None"),
        digits = 3,
        caption.above=TRUE, 
        include.rsquared=TRUE,
